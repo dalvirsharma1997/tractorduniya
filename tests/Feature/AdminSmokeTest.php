@@ -24,6 +24,21 @@ class AdminSmokeTest extends TestCase
             'city' => 'Pune', 'condition' => 'good', 'asking_price' => 300000, 'status' => 'pending',
         ]);
         $rule = \App\Models\LeadAssignmentRule::first();
+        $blog = \App\Models\Blog::first();
+        $news = \App\Models\News::create([
+            'title' => 'Test News', 'slug' => 'test-news', 'body' => '<p>body</p>', 'status' => 'draft',
+        ]);
+        $video = \App\Models\Video::create([
+            'title' => 'Test Video', 'slug' => 'test-video', 'embed_url' => 'https://youtube.com/embed/x',
+        ]);
+        $faq = \App\Models\Faq::first();
+        $review = \App\Models\Review::create([
+            'reviewable_type' => 'tractor', 'reviewable_id' => $tractor->id,
+            'reviewer_name' => 'Test', 'rating' => 5, 'body' => 'great', 'status' => 'pending',
+        ]);
+        $role = \App\Models\Role::first();
+        $redirect = \App\Models\Redirect::create(['from_path' => '/old', 'to_path' => '/new', 'type' => '301']);
+        $seoMeta = \App\Models\SeoMeta::create(['path' => '/about', 'meta_title' => 'About']);
 
         foreach ([
             '/admin',
@@ -36,6 +51,16 @@ class AdminSmokeTest extends TestCase
             '/admin/used-listings', '/admin/used-listings/create', "/admin/used-listings/{$usedListing->id}/edit",
             '/admin/leads', '/admin/leads/create', "/admin/leads/{$lead->id}/edit",
             '/admin/lead-assignment-rules', '/admin/lead-assignment-rules/create', "/admin/lead-assignment-rules/{$rule->id}/edit",
+            '/admin/blogs', '/admin/blogs/create', "/admin/blogs/{$blog->id}/edit",
+            '/admin/news', '/admin/news/create', "/admin/news/{$news->id}/edit",
+            '/admin/videos', '/admin/videos/create', "/admin/videos/{$video->id}/edit",
+            '/admin/faqs', '/admin/faqs/create', "/admin/faqs/{$faq->id}/edit",
+            '/admin/reviews', '/admin/reviews/create', "/admin/reviews/{$review->id}/edit",
+            '/admin/users', '/admin/users/create', "/admin/users/{$user->id}/edit",
+            '/admin/roles', '/admin/roles/create', "/admin/roles/{$role->id}/edit",
+            '/admin/redirects', '/admin/redirects/create', "/admin/redirects/{$redirect->id}/edit",
+            '/admin/seo-metas', '/admin/seo-metas/create', "/admin/seo-metas/{$seoMeta->id}/edit",
+            '/admin/manage-settings',
         ] as $url) {
             $response = $this->get($url);
             $status = $response->getStatusCode();
