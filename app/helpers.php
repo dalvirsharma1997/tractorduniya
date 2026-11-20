@@ -1,7 +1,9 @@
 <?php
 
 use App\Models\SeoMeta;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Route;
 
 if (! function_exists('seo_meta_override')) {
     /**
@@ -20,5 +22,50 @@ if (! function_exists('seo_meta_override')) {
         $path = '/'.ltrim(Request::path(), '/');
 
         return SeoMeta::whereNull('routable_type')->where('path', $path)->latest('id')->first();
+    }
+}
+
+if (! function_exists('localized_route')) {
+    /**
+     * Build a route name for the current (or given) locale, so controllers
+     * can redirect back into whichever locale the request came from without
+     * hardcoding the English route name.
+     */
+    function localized_route(string $name, mixed $parameters = [], ?string $locale = null): string
+    {
+        $locale ??= App::getLocale();
+        $localizedName = $locale === 'en' ? $name : "{$locale}.{$name}";
+
+        return Route::has($localizedName) ? route($localizedName, $parameters) : route($name, $parameters);
+    }
+}
+
+if (! function_exists('hreflang_alternates')) {
+    /**
+     * EN/HI alternate URLs for the current route, keyed by hreflang code.
+     * Returns [] for routes that have no bilingual counterpart (sitemaps, etc).
+     */
+    function hreflang_alternates(): array
+    {
+        $route = Request::route();
+        if (! $route || ! $route->getName()) {
+            return [];
+        }
+
+        $name = $route->getName();
+        $baseName = str_starts_with($name, 'hi.') ? substr($name, 3) : $name;
+        $params = $route->parameters();
+
+        $alternates = [];
+
+        if (Route::has($baseName)) {
+            $alternates['en'] = route($baseName, $params);
+        }
+
+        if (Route::has("hi.{$baseName}")) {
+            $alternates['hi'] = route("hi.{$baseName}", $params);
+        }
+
+        return $alternates;
     }
 }

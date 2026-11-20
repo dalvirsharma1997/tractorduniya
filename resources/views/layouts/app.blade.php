@@ -3,15 +3,22 @@
     $pageTitle = $seoOverride->meta_title ?? View::yieldContent('title') ?: 'TractorDuniya.in — Tractors, Implements & Dealers Across India';
     $pageDescription = $seoOverride->meta_description ?? View::yieldContent('meta_description') ?: 'Compare tractor prices and specs, find implements, locate dealers near you, and buy or sell used tractors on TractorDuniya.in.';
     $canonicalUrl = $seoOverride->canonical_url ?? (View::hasSection('canonical') ? View::yieldContent('canonical') : url()->current());
+    $alternates = hreflang_alternates();
 @endphp
 <!DOCTYPE html>
-<html lang="en" class="h-full scroll-smooth">
+<html lang="{{ app()->getLocale() }}" class="h-full scroll-smooth">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $pageTitle }}</title>
     <meta name="description" content="{{ $pageDescription }}">
     <link rel="canonical" href="{{ $canonicalUrl }}">
+    @foreach($alternates as $hreflangCode => $href)
+        <link rel="alternate" hreflang="{{ $hreflangCode }}" href="{{ $href }}">
+    @endforeach
+    @isset($alternates['en'])
+        <link rel="alternate" hreflang="x-default" href="{{ $alternates['en'] }}">
+    @endisset
     @if($seoOverride?->og_image)
         <meta property="og:image" content="{{ \Illuminate\Support\Facades\Storage::url($seoOverride->og_image) }}">
     @endif

@@ -70,7 +70,7 @@ class UsedListingController extends Controller
             $listing->images()->create(['path' => $path, 'sort_order' => $i]);
         }
 
-        return redirect()->route('used-listings.index')
+        return redirect(localized_route('used-listings.index'))
             ->with('listing_submitted', 'Your listing has been submitted and will appear once our team approves it.');
     }
 }

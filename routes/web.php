@@ -14,39 +14,65 @@ use App\Http\Controllers\TractorController;
 use App\Http\Controllers\UsedListingController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+/*
+|--------------------------------------------------------------------------
+| Bilingual public routes (EN default, /hi/ prefix)
+|--------------------------------------------------------------------------
+| Registered once via this closure, then mounted twice below so every
+| content page exists at both the English and Hindi URL with matching
+| route names (bare name = EN, "hi."-prefixed = HI), which is what the
+| hreflang/language-switcher helpers in app/helpers.php rely on.
+*/
+$registerPublicRoutes = function () {
+    Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/tractors', [TractorController::class, 'index'])->name('tractors.index');
-Route::get('/compare/{slugs}', [TractorController::class, 'compare'])->name('tractors.compare');
-Route::get('/tractors/{brand:slug}', [BrandController::class, 'show'])->name('brands.show');
-Route::get('/tractors/{brand:slug}/{tractor:slug}', [TractorController::class, 'show'])->name('tractors.show');
+    Route::get('/tractors', [TractorController::class, 'index'])->name('tractors.index');
+    Route::get('/compare/{slugs}', [TractorController::class, 'compare'])->name('tractors.compare');
+    Route::get('/tractors/{brand:slug}', [BrandController::class, 'show'])->name('brands.show');
+    Route::get('/tractors/{brand:slug}/{tractor:slug}', [TractorController::class, 'show'])->name('tractors.show');
 
-Route::get('/category/{category:slug}', [CategoryController::class, 'show'])->name('categories.show');
+    Route::get('/category/{category:slug}', [CategoryController::class, 'show'])->name('categories.show');
 
-Route::get('/implements', [ImplementController::class, 'index'])->name('implements.index');
-Route::get('/implements/{implement:slug}', [ImplementController::class, 'show'])->name('implements.show');
+    Route::get('/implements', [ImplementController::class, 'index'])->name('implements.index');
+    Route::get('/implements/{implement:slug}', [ImplementController::class, 'show'])->name('implements.show');
 
-Route::get('/used-tractors', [UsedListingController::class, 'index'])->name('used-listings.index');
-Route::get('/sell', [UsedListingController::class, 'create'])->name('used-listings.create');
-Route::post('/sell', [UsedListingController::class, 'store'])
-    ->middleware('throttle:5,1')
-    ->name('used-listings.store');
+    Route::get('/used-tractors', [UsedListingController::class, 'index'])->name('used-listings.index');
+    Route::get('/sell', [UsedListingController::class, 'create'])->name('used-listings.create');
+    Route::post('/sell', [UsedListingController::class, 'store'])
+        ->middleware('throttle:5,1')
+        ->name('used-listings.store');
 
-Route::get('/dealers', [DealerController::class, 'index'])->name('dealers.index');
-Route::get('/dealers/{dealer:slug}', [DealerController::class, 'show'])->name('dealers.show');
+    Route::get('/dealers', [DealerController::class, 'index'])->name('dealers.index');
+    Route::get('/dealers/{dealer:slug}', [DealerController::class, 'show'])->name('dealers.show');
 
-Route::get('/emi-calculator', [PageController::class, 'emiCalculator'])->name('emi-calculator');
-Route::get('/faqs', [PageController::class, 'faqs'])->name('faqs');
-Route::get('/about', [PageController::class, 'about'])->name('about');
-Route::get('/contact', [PageController::class, 'contact'])->name('contact');
-Route::get('/privacy-policy', [PageController::class, 'privacy'])->name('privacy');
+    Route::get('/emi-calculator', [PageController::class, 'emiCalculator'])->name('emi-calculator');
+    Route::get('/faqs', [PageController::class, 'faqs'])->name('faqs');
+    Route::get('/about', [PageController::class, 'about'])->name('about');
+    Route::get('/contact', [PageController::class, 'contact'])->name('contact');
+    Route::get('/privacy-policy', [PageController::class, 'privacy'])->name('privacy');
 
-Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
-Route::get('/blog/{blog:slug}', [BlogController::class, 'show'])->name('blog.show');
+    Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+    Route::get('/blog/{blog:slug}', [BlogController::class, 'show'])->name('blog.show');
 
-Route::get('/news', [NewsController::class, 'index'])->name('news.index');
-Route::get('/news/{news:slug}', [NewsController::class, 'show'])->name('news.show');
+    Route::get('/news', [NewsController::class, 'index'])->name('news.index');
+    Route::get('/news/{news:slug}', [NewsController::class, 'show'])->name('news.show');
 
+    Route::post('/leads', [LeadController::class, 'store'])
+        ->middleware('throttle:10,1')
+        ->name('leads.store');
+
+    Route::get('/tractors-in-{state:slug}', [PageController::class, 'stateLanding'])->name('geo.state');
+};
+
+Route::middleware('setlocale:en')->group($registerPublicRoutes);
+
+Route::prefix('hi')->middleware('setlocale:hi')->name('hi.')->group($registerPublicRoutes);
+
+/*
+|--------------------------------------------------------------------------
+| Non-localized routes (sitemaps, robots, catch-all)
+|--------------------------------------------------------------------------
+*/
 Route::get('/robots.txt', [SitemapController::class, 'robots'])->name('robots');
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap.index');
 Route::get('/sitemap-tractors.xml', [SitemapController::class, 'tractors'])->name('sitemap.tractors');
@@ -54,11 +80,5 @@ Route::get('/sitemap-implements.xml', [SitemapController::class, 'implements'])-
 Route::get('/sitemap-dealers.xml', [SitemapController::class, 'dealers'])->name('sitemap.dealers');
 Route::get('/sitemap-blogs.xml', [SitemapController::class, 'blogs'])->name('sitemap.blogs');
 Route::get('/sitemap-news.xml', [SitemapController::class, 'news'])->name('sitemap.news');
-
-Route::post('/leads', [LeadController::class, 'store'])
-    ->middleware('throttle:10,1')
-    ->name('leads.store');
-
-Route::get('/tractors-in-{state:slug}', [PageController::class, 'stateLanding'])->name('geo.state');
 
 Route::fallback([PageController::class, 'handleUnmatched']);
