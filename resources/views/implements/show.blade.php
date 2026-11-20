@@ -14,9 +14,9 @@
 {
     "@context": "https://schema.org",
     "@type": "Product",
-    "name": {{ json_encode($implement->name) }},
+    "name": {!! json_encode($implement->name) !!},
     @if($implement->brand)
-    "brand": { "@type": "Brand", "name": {{ json_encode($implement->brand->name) }} },
+    "brand": { "@type": "Brand", "name": {!! json_encode($implement->brand->name) !!} },
     @endif
     @if($implement->price_min)
     "offers": {
@@ -32,7 +32,14 @@
 
 @section('content')
 <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+    <x-breadcrumbs :items="[
+        ['name' => 'Implements', 'url' => route('implements.index')],
+        ['name' => $implement->name, 'url' => null],
+    ]" />
+
+    <x-faq-schema :faqs="$faqs" />
+
+    <div class="mt-4 grid grid-cols-1 gap-8 lg:grid-cols-3">
         <div class="lg:col-span-2">
             <div class="aspect-[16/9] overflow-hidden rounded-xl bg-gray-100">
                 @if($primaryImage)

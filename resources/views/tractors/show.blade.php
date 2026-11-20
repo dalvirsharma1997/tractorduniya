@@ -15,8 +15,8 @@
 {
     "@context": "https://schema.org",
     "@type": "Product",
-    "name": {{ json_encode($tractor->name) }},
-    "brand": { "@type": "Brand", "name": {{ json_encode($tractor->brand->name) }} },
+    "name": {!! json_encode($tractor->name) !!},
+    "brand": { "@type": "Brand", "name": {!! json_encode($tractor->brand->name) !!} },
     @if($nationalPrice)
     "offers": {
         "@type": "AggregateOffer",
@@ -25,18 +25,20 @@
         "highPrice": {{ $nationalPrice->price_max }}
     },
     @endif
-    "image": {{ json_encode($tractor->images->map(fn($i) => asset('storage/'.$i->path))->values()) }}
+    "image": {!! json_encode($tractor->images->map(fn($i) => asset('storage/'.$i->path))->values()) !!}
 }
 </script>
 @endsection
 
 @section('content')
 <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-    <nav class="text-sm text-gray-500">
-        <a href="{{ route('tractors.index') }}" class="hover:underline">Tractors</a> /
-        <a href="{{ route('brands.show', $tractor->brand) }}" class="hover:underline">{{ $tractor->brand->name }}</a> /
-        <span class="text-gray-800">{{ $tractor->name }}</span>
-    </nav>
+    <x-breadcrumbs :items="[
+        ['name' => 'Tractors', 'url' => route('tractors.index')],
+        ['name' => $tractor->brand->name, 'url' => route('brands.show', $tractor->brand)],
+        ['name' => $tractor->name, 'url' => null],
+    ]" />
+
+    <x-faq-schema :faqs="$faqs" />
 
     <div class="mt-4 grid grid-cols-1 gap-8 lg:grid-cols-3">
         <div class="lg:col-span-2">

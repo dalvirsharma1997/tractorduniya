@@ -5,7 +5,12 @@
 
 @section('content')
 <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-    <div class="flex items-center gap-4">
+    <x-breadcrumbs :items="[
+        ['name' => 'Tractors', 'url' => route('tractors.index')],
+        ['name' => $brand->name, 'url' => null],
+    ]" />
+
+    <div class="mt-4 flex items-center gap-4">
         @if($brand->logo_path)
             <img src="{{ \Illuminate\Support\Facades\Storage::url($brand->logo_path) }}" alt="{{ $brand->name }}" class="h-12 w-12 rounded object-contain">
         @endif

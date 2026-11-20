@@ -10,15 +10,18 @@
 {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": {{ json_encode($post->title) }},
-    "datePublished": {{ json_encode($post->published_at?->toIso8601String()) }}
+    "headline": {!! json_encode($post->title) !!},
+    "datePublished": {!! json_encode($post->published_at?->toIso8601String()) !!}
 }
 </script>
 @endsection
 
 @section('content')
 <article class="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
-    <nav class="text-sm text-gray-500"><a href="{{ route('news.index') }}" class="hover:underline">News</a> / {{ $post->title }}</nav>
+    <x-breadcrumbs :items="[
+        ['name' => 'News', 'url' => route('news.index')],
+        ['name' => $post->title, 'url' => null],
+    ]" />
     <h1 class="mt-2 text-3xl font-bold text-gray-900">{{ $post->title }}</h1>
     <p class="mt-2 text-sm text-gray-400">{{ $post->published_at?->format('d M Y') }} @if($post->category) · {{ $post->category }} @endif</p>
 

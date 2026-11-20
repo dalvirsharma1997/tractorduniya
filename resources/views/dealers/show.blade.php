@@ -9,21 +9,26 @@
 {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "name": {{ json_encode($dealer->name) }},
+    "name": {!! json_encode($dealer->name) !!},
     "address": {
         "@type": "PostalAddress",
-        "streetAddress": {{ json_encode($dealer->address) }},
-        "addressLocality": {{ json_encode($dealer->city) }},
-        "addressRegion": {{ json_encode($dealer->state->name) }}
+        "streetAddress": {!! json_encode($dealer->address) !!},
+        "addressLocality": {!! json_encode($dealer->city) !!},
+        "addressRegion": {!! json_encode($dealer->state->name) !!}
     },
-    "telephone": {{ json_encode($dealer->phone) }}
+    "telephone": {!! json_encode($dealer->phone) !!}
 }
 </script>
 @endsection
 
 @section('content')
 <div class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
-    <h1 class="text-2xl font-bold text-gray-900">
+    <x-breadcrumbs :items="[
+        ['name' => 'Dealers', 'url' => route('dealers.index')],
+        ['name' => $dealer->name, 'url' => null],
+    ]" />
+
+    <h1 class="mt-4 text-2xl font-bold text-gray-900">
         {{ $dealer->name }}
         @if($dealer->is_verified)
             <span class="ml-2 rounded-full bg-brand-100 px-2 py-0.5 text-xs font-medium text-brand-800">Verified Dealer</span>

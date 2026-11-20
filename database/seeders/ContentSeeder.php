@@ -76,5 +76,18 @@ class ContentSeeder extends Seeder
                 );
             }
         }
+
+        $pageFaqs = [
+            ['q' => 'Is TractorDuniya.in free to use?', 'a' => 'Yes, browsing listings, comparing tractors, and contacting dealers is completely free for buyers and sellers.'],
+            ['q' => 'How do I sell my used tractor?', 'a' => 'Use the "Sell your tractor" form to submit your listing with photos. Our team reviews it before it goes live.'],
+            ['q' => 'Are the dealers on this site verified?', 'a' => 'Dealers marked "Verified" have been confirmed by our team. We recommend always verifying details before making a purchase.'],
+        ];
+
+        foreach ($pageFaqs as $i => $faq) {
+            Faq::updateOrCreate(
+                ['faqable_type' => 'page', 'faqable_id' => null, 'question' => $faq['q']],
+                ['answer' => $faq['a'], 'sort_order' => $i]
+            );
+        }
     }
 }

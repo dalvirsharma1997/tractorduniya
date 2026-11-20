@@ -3,6 +3,7 @@
 @section('title', 'Frequently Asked Questions')
 
 @section('content')
+<x-faq-schema :faqs="$faqs" />
 <div class="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
     <h1 class="text-3xl font-bold text-gray-900">Frequently Asked Questions</h1>
     <div class="mt-6 divide-y divide-gray-200">
