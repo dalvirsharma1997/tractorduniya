@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Banner;
 use App\Models\Blog;
 use App\Models\Brand;
 use App\Models\Tractor;
@@ -11,6 +12,8 @@ class HomeController extends Controller
 {
     public function index(): View
     {
+        $banners = Banner::where('is_active', true)->orderBy('sort_order')->get();
+
         $popularTractors = Tractor::where('status', 'active')
             ->where('is_featured', true)
             ->with(['brand', 'images', 'prices'])
@@ -30,6 +33,6 @@ class HomeController extends Controller
             ->limit(3)
             ->get();
 
-        return view('home', compact('popularTractors', 'latestLaunches', 'brands', 'latestPosts'));
+        return view('home', compact('banners', 'popularTractors', 'latestLaunches', 'brands', 'latestPosts'));
     }
 }

@@ -16,7 +16,7 @@ class RemoveDemoData extends Command
         'tractor_specs', 'tractor_prices', 'tractor_images', 'tractors',
         'implement_specs', 'implement_images', 'implements',
         'dealer_brands', 'lead_assignment_rules', 'dealers',
-        'faqs', 'blogs', 'news', 'videos', 'reviews',
+        'faqs', 'blogs', 'news', 'videos', 'reviews', 'banners',
         'used_listing_images', 'used_listings',
         'leads', 'lead_activity_log',
     ];

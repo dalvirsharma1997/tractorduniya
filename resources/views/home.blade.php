@@ -1,6 +1,80 @@
 @extends('layouts.app')
 
 @section('content')
+    @if($banners->isNotEmpty())
+        <section class="relative overflow-hidden" id="banner-slider">
+            <div class="relative aspect-[8/3] w-full sm:aspect-[16/5]">
+                @foreach($banners as $i => $banner)
+                    <div class="banner-slide absolute inset-0 transition-opacity duration-700 {{ $i === 0 ? 'opacity-100' : 'opacity-0 pointer-events-none' }}"
+                         data-index="{{ $i }}">
+                        <img src="{{ \Illuminate\Support\Facades\Storage::url($banner->image_path) }}" alt="{{ $banner->title }}"
+                             class="h-full w-full object-cover">
+                        <div class="absolute inset-0 bg-black/30"></div>
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+                                <div class="max-w-xl text-white">
+                                    <h2 class="text-xl font-bold sm:text-3xl">{{ $banner->title }}</h2>
+                                    @if($banner->subtitle)
+                                        <p class="mt-2 text-sm text-white/90 sm:text-base">{{ $banner->subtitle }}</p>
+                                    @endif
+                                    @if($banner->link_url)
+                                        <a href="{{ $banner->link_url }}"
+                                           class="mt-4 inline-block rounded-md bg-white px-5 py-2 text-sm font-semibold text-brand-700 hover:bg-brand-50">
+                                            {{ $banner->button_text ?: 'Learn More' }}
+                                        </a>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+            @if($banners->count() > 1)
+                <button type="button" onclick="bannerGo(-1)" aria-label="Previous slide"
+                        class="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-black/30 p-2 text-white hover:bg-black/50">
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+                </button>
+                <button type="button" onclick="bannerGo(1)" aria-label="Next slide"
+                        class="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-black/30 p-2 text-white hover:bg-black/50">
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                </button>
+                <div class="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-2">
+                    @foreach($banners as $i => $banner)
+                        <button type="button" onclick="bannerShow({{ $i }})" class="banner-dot h-2 w-2 rounded-full {{ $i === 0 ? 'bg-white' : 'bg-white/50' }}" aria-label="Go to slide {{ $i + 1 }}"></button>
+                    @endforeach
+                </div>
+
+                <script>
+                    (function () {
+                        let current = 0;
+                        const slides = document.querySelectorAll('#banner-slider .banner-slide');
+                        const dots = document.querySelectorAll('#banner-slider .banner-dot');
+                        let timer;
+
+                        window.bannerShow = function (index) {
+                            slides[current].classList.add('opacity-0', 'pointer-events-none');
+                            slides[current].classList.remove('opacity-100');
+                            dots[current].classList.replace('bg-white', 'bg-white/50');
+                            current = (index + slides.length) % slides.length;
+                            slides[current].classList.remove('opacity-0', 'pointer-events-none');
+                            slides[current].classList.add('opacity-100');
+                            dots[current].classList.replace('bg-white/50', 'bg-white');
+                            resetTimer();
+                        };
+                        window.bannerGo = function (delta) { bannerShow(current + delta); };
+
+                        function resetTimer() {
+                            clearInterval(timer);
+                            timer = setInterval(() => bannerGo(1), 5000);
+                        }
+                        resetTimer();
+                    })();
+                </script>
+            @endif
+        </section>
+    @endif
+
     <section class="bg-gradient-to-b from-brand-50 to-white">
         <div class="mx-auto max-w-5xl px-4 py-16 text-center sm:px-6 lg:px-8">
             <h1 class="text-3xl font-bold text-gray-900 sm:text-5xl">Find the right tractor for your farm</h1>

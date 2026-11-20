@@ -45,6 +45,7 @@ class AdminSmokeTest extends TestCase
         $role = \App\Models\Role::first();
         $redirect = \App\Models\Redirect::firstOrCreate(['from_path' => '/old'], ['to_path' => '/new', 'type' => '301']);
         $seoMeta = \App\Models\SeoMeta::firstOrCreate(['path' => '/about'], ['meta_title' => 'About']);
+        $banner = \App\Models\Banner::first();
 
         foreach ([
             '/admin',
@@ -67,6 +68,7 @@ class AdminSmokeTest extends TestCase
             '/admin/redirects', '/admin/redirects/create', "/admin/redirects/{$redirect->id}/edit",
             '/admin/seo-metas', '/admin/seo-metas/create', "/admin/seo-metas/{$seoMeta->id}/edit",
             '/admin/manage-settings',
+            '/admin/banners', '/admin/banners/create', "/admin/banners/{$banner->id}/edit",
         ] as $url) {
             $response = $this->get($url);
             $status = $response->getStatusCode();

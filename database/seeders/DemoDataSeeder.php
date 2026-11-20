@@ -19,6 +19,7 @@ class DemoDataSeeder extends Seeder
             DealerSeeder::class,
             LeadAssignmentRuleSeeder::class,
             ContentSeeder::class,
+            BannerSeeder::class,
         ]);
     }
 }
