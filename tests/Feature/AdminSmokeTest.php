@@ -15,30 +15,36 @@ class AdminSmokeTest extends TestCase
         $tractor = \App\Models\Tractor::first();
         $implement = \App\Models\Implement::first();
         $dealer = \App\Models\Dealer::first();
-        $lead = \App\Models\Lead::create([
-            'name' => 'Test Lead', 'phone' => '9000000000', 'status' => 'new',
-        ]);
-        $usedListing = \App\Models\UsedListing::create([
-            'listing_type' => 'tractor', 'tractor_id' => $tractor->id,
-            'seller_name' => 'Test Seller', 'seller_phone' => '9111111111',
-            'city' => 'Pune', 'condition' => 'good', 'asking_price' => 300000, 'status' => 'pending',
-        ]);
+        $lead = \App\Models\Lead::firstOrCreate(
+            ['phone' => '9000000000'],
+            ['name' => 'Test Lead', 'status' => 'new']
+        );
+        $usedListing = \App\Models\UsedListing::firstOrCreate(
+            ['seller_phone' => '9111111111'],
+            [
+                'listing_type' => 'tractor', 'tractor_id' => $tractor->id,
+                'seller_name' => 'Test Seller', 'city' => 'Pune', 'condition' => 'good',
+                'asking_price' => 300000, 'status' => 'pending',
+            ]
+        );
         $rule = \App\Models\LeadAssignmentRule::first();
         $blog = \App\Models\Blog::first();
-        $news = \App\Models\News::create([
-            'title' => 'Test News', 'slug' => 'test-news', 'body' => '<p>body</p>', 'status' => 'draft',
-        ]);
-        $video = \App\Models\Video::create([
-            'title' => 'Test Video', 'slug' => 'test-video', 'embed_url' => 'https://youtube.com/embed/x',
-        ]);
+        $news = \App\Models\News::firstOrCreate(
+            ['slug' => 'test-news'],
+            ['title' => 'Test News', 'body' => '<p>body</p>', 'status' => 'draft']
+        );
+        $video = \App\Models\Video::firstOrCreate(
+            ['slug' => 'test-video'],
+            ['title' => 'Test Video', 'embed_url' => 'https://youtube.com/embed/x']
+        );
         $faq = \App\Models\Faq::first();
-        $review = \App\Models\Review::create([
-            'reviewable_type' => 'tractor', 'reviewable_id' => $tractor->id,
-            'reviewer_name' => 'Test', 'rating' => 5, 'body' => 'great', 'status' => 'pending',
-        ]);
+        $review = \App\Models\Review::firstOrCreate(
+            ['reviewable_type' => 'tractor', 'reviewable_id' => $tractor->id, 'reviewer_name' => 'Test'],
+            ['rating' => 5, 'body' => 'great', 'status' => 'pending']
+        );
         $role = \App\Models\Role::first();
-        $redirect = \App\Models\Redirect::create(['from_path' => '/old', 'to_path' => '/new', 'type' => '301']);
-        $seoMeta = \App\Models\SeoMeta::create(['path' => '/about', 'meta_title' => 'About']);
+        $redirect = \App\Models\Redirect::firstOrCreate(['from_path' => '/old'], ['to_path' => '/new', 'type' => '301']);
+        $seoMeta = \App\Models\SeoMeta::firstOrCreate(['path' => '/about'], ['meta_title' => 'About']);
 
         foreach ([
             '/admin',
