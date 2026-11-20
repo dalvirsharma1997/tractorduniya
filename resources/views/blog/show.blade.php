@@ -1,7 +1,13 @@
 @extends('layouts.app')
 
-@section('title', $post->meta_title ?: $post->title)
-@section('meta_description', $post->meta_description ?: $post->excerpt)
+@php
+    $title = trans_field('blog', $post, 'title');
+    $excerpt = trans_field('blog', $post, 'excerpt');
+    $body = trans_field('blog', $post, 'body');
+@endphp
+
+@section('title', app()->getLocale() === 'en' ? ($post->meta_title ?: $title) : $title)
+@section('meta_description', app()->getLocale() === 'en' ? ($post->meta_description ?: $excerpt) : $excerpt)
 @section('seo_type', 'blog')
 @section('seo_id', $post->id)
 
@@ -10,7 +16,7 @@
 {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": {!! json_encode($post->title) !!},
+    "headline": {!! json_encode($title) !!},
     "datePublished": {!! json_encode($post->published_at?->toIso8601String()) !!}
 }
 </script>
@@ -19,10 +25,10 @@
 @section('content')
 <article class="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
     <x-breadcrumbs :items="[
-        ['name' => 'Blog', 'url' => route('blog.index')],
-        ['name' => $post->title, 'url' => null],
+        ['name' => __('Blog'), 'url' => localized_route('blog.index')],
+        ['name' => $title, 'url' => null],
     ]" />
-    <h1 class="mt-2 text-3xl font-bold text-gray-900">{{ $post->title }}</h1>
+    <h1 class="mt-2 text-3xl font-bold text-gray-900">{{ $title }}</h1>
     <p class="mt-2 text-sm text-gray-400">{{ $post->published_at?->format('d M Y') }} @if($post->category) · {{ $post->category }} @endif</p>
 
     @if($post->cover_image)
@@ -32,17 +38,17 @@
     @endif
 
     <div class="prose prose-gray mt-6 max-w-none">
-        {!! $post->body !!}
+        {!! $body !!}
     </div>
 </article>
 
 @if($related->isNotEmpty())
     <div class="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
-        <h2 class="text-xl font-bold text-gray-900">More from the blog</h2>
+        <h2 class="text-xl font-bold text-gray-900">{{ __('More from the blog') }}</h2>
         <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-3">
             @foreach($related as $item)
-                <a href="{{ route('blog.show', $item) }}" class="rounded-lg border border-gray-200 p-4 hover:shadow-md">
-                    <p class="font-semibold text-gray-900">{{ $item->title }}</p>
+                <a href="{{ localized_route('blog.show', $item) }}" class="rounded-lg border border-gray-200 p-4 hover:shadow-md">
+                    <p class="font-semibold text-gray-900">{{ trans_field('blog', $item, 'title') }}</p>
                 </a>
             @endforeach
         </div>

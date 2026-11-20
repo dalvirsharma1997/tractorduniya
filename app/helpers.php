@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\SeoMeta;
+use App\Models\Translation;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +39,24 @@ if (! function_exists('localized_route')) {
         $localizedName = $locale === 'en' ? $name : "{$locale}.{$name}";
 
         return Route::has($localizedName) ? route($localizedName, $parameters) : route($name, $parameters);
+    }
+}
+
+if (! function_exists('trans_field')) {
+    /**
+     * A content field's translated value for the current locale, falling
+     * back to the model's own (English) column when no override exists
+     * or the current locale is English.
+     */
+    function trans_field(string $entityType, Model $model, string $field): mixed
+    {
+        $locale = App::getLocale();
+
+        if ($locale === 'en') {
+            return $model->{$field};
+        }
+
+        return Translation::valueFor($entityType, $model->id, $locale, $field) ?? $model->{$field};
     }
 }
 

@@ -6,6 +6,7 @@ use App\Models\Blog;
 use App\Models\Faq;
 use App\Models\News;
 use App\Models\Tractor;
+use App\Models\Translation;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -44,6 +45,22 @@ class ContentSeeder extends Seeder
                     'meta_title' => $post['title'],
                     'meta_description' => $post['excerpt'],
                 ]
+            );
+        }
+
+        $howToChooseBlog = Blog::where('slug', Str::slug('How to Choose the Right HP Tractor for Your Farm'))->first();
+        if ($howToChooseBlog) {
+            Translation::updateOrCreate(
+                ['entity_type' => 'blog', 'entity_id' => $howToChooseBlog->id, 'language_code' => 'hi', 'field_name' => 'title'],
+                ['field_value' => 'अपने खेत के लिए सही एचपी ट्रैक्टर कैसे चुनें']
+            );
+            Translation::updateOrCreate(
+                ['entity_type' => 'blog', 'entity_id' => $howToChooseBlog->id, 'language_code' => 'hi', 'field_name' => 'excerpt'],
+                ['field_value' => 'अपनी ज़मीन के आकार और उपकरणों के अनुसार ट्रैक्टर की हॉर्स पावर चुनने की एक त्वरित गाइड।']
+            );
+            Translation::updateOrCreate(
+                ['entity_type' => 'blog', 'entity_id' => $howToChooseBlog->id, 'language_code' => 'hi', 'field_name' => 'body'],
+                ['field_value' => '<p>सही हॉर्स पावर वाला ट्रैक्टर चुनना आपकी ज़मीन के आकार, मिट्टी के प्रकार और आप जिन उपकरणों का उपयोग करने की योजना बना रहे हैं, उस पर निर्भर करता है। यह गाइड बुनियादी बातों को समझाती है ताकि आप न तो ज़्यादा खर्च करें और न ही अपने खेत के लिए कम क्षमता वाला ट्रैक्टर चुनें।</p>']
             );
         }
 

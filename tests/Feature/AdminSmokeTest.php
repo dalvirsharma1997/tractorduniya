@@ -46,6 +46,10 @@ class AdminSmokeTest extends TestCase
         $redirect = \App\Models\Redirect::firstOrCreate(['from_path' => '/old'], ['to_path' => '/new', 'type' => '301']);
         $seoMeta = \App\Models\SeoMeta::firstOrCreate(['path' => '/about'], ['meta_title' => 'About']);
         $banner = \App\Models\Banner::first();
+        $translation = \App\Models\Translation::firstOrCreate(
+            ['entity_type' => 'blog', 'entity_id' => $blog->id, 'language_code' => 'hi', 'field_name' => 'title'],
+            ['field_value' => 'परीक्षण शीर्षक']
+        );
 
         foreach ([
             '/admin',
@@ -69,6 +73,7 @@ class AdminSmokeTest extends TestCase
             '/admin/seo-metas', '/admin/seo-metas/create', "/admin/seo-metas/{$seoMeta->id}/edit",
             '/admin/manage-settings',
             '/admin/banners', '/admin/banners/create', "/admin/banners/{$banner->id}/edit",
+            '/admin/translations', '/admin/translations/create', "/admin/translations/{$translation->id}/edit",
         ] as $url) {
             $response = $this->get($url);
             $status = $response->getStatusCode();
