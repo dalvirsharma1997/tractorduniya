@@ -2,22 +2,22 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Base reference data (roles, admin user, states/districts, brands/categories)
+     * plus removable demo content. Run `php artisan demo:remove` after go-live to
+     * strip the demo tractors/implements/dealers/content without touching the base data.
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $this->call([
+            RolePermissionSeeder::class,
+            StateDistrictSeeder::class,
+            BrandCategorySeeder::class,
+            DemoDataSeeder::class,
         ]);
     }
 }
