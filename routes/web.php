@@ -7,7 +7,9 @@ use App\Http\Controllers\DealerController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImplementController;
 use App\Http\Controllers\LeadController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\TractorController;
 use App\Http\Controllers\UsedListingController;
 use Illuminate\Support\Facades\Route;
@@ -42,8 +44,21 @@ Route::get('/privacy-policy', [PageController::class, 'privacy'])->name('privacy
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/{blog:slug}', [BlogController::class, 'show'])->name('blog.show');
 
+Route::get('/news', [NewsController::class, 'index'])->name('news.index');
+Route::get('/news/{news:slug}', [NewsController::class, 'show'])->name('news.show');
+
+Route::get('/robots.txt', [SitemapController::class, 'robots'])->name('robots');
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap.index');
+Route::get('/sitemap-tractors.xml', [SitemapController::class, 'tractors'])->name('sitemap.tractors');
+Route::get('/sitemap-implements.xml', [SitemapController::class, 'implements'])->name('sitemap.implements');
+Route::get('/sitemap-dealers.xml', [SitemapController::class, 'dealers'])->name('sitemap.dealers');
+Route::get('/sitemap-blogs.xml', [SitemapController::class, 'blogs'])->name('sitemap.blogs');
+Route::get('/sitemap-news.xml', [SitemapController::class, 'news'])->name('sitemap.news');
+
 Route::post('/leads', [LeadController::class, 'store'])
     ->middleware('throttle:10,1')
     ->name('leads.store');
 
 Route::get('/tractors-in-{state:slug}', [PageController::class, 'stateLanding'])->name('geo.state');
+
+Route::fallback([PageController::class, 'handleUnmatched']);

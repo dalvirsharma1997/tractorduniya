@@ -7,6 +7,8 @@
 
 @section('title', $tractor->name . ' Price, Specs & Mileage — ' . $tractor->brand->name)
 @section('meta_description', $tractor->name . ' (' . $tractor->hp . ' HP) price, full specifications, features, and dealer contacts in India.')
+@section('seo_type', 'tractor')
+@section('seo_id', $tractor->id)
 
 @section('json_ld')
 <script type="application/ld+json">

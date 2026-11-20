@@ -48,7 +48,16 @@ class PublicPagesSmokeTest extends TestCase
             '/privacy-policy',
             '/blog',
             "/blog/{$blog->slug}",
+            '/news',
+            '/news/new-emission-norms-for-tractors-announced',
             "/tractors-in-{$state->slug}",
+            '/robots.txt',
+            '/sitemap.xml',
+            '/sitemap-tractors.xml',
+            '/sitemap-implements.xml',
+            '/sitemap-dealers.xml',
+            '/sitemap-blogs.xml',
+            '/sitemap-news.xml',
         ];
 
         foreach ($urls as $url) {

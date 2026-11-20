@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Blog;
 use App\Models\Faq;
+use App\Models\News;
 use App\Models\Tractor;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -45,6 +46,21 @@ class ContentSeeder extends Seeder
                 ]
             );
         }
+
+        News::updateOrCreate(
+            ['slug' => 'new-emission-norms-for-tractors-announced'],
+            [
+                'author_id' => $admin?->id,
+                'title' => 'New Emission Norms for Tractors Announced',
+                'category' => 'Industry News',
+                'excerpt' => 'Regulators have announced updated emission norms affecting new tractor models from next year.',
+                'body' => '<p>The announcement affects new tractor models sold from next year onward; existing owners are not required to retrofit. Manufacturers are expected to update engine lineups ahead of the deadline.</p>',
+                'status' => 'published',
+                'published_at' => now(),
+                'meta_title' => 'New Emission Norms for Tractors Announced',
+                'meta_description' => 'Updated emission norms for new tractor models — what buyers need to know.',
+            ]
+        );
 
         $firstTractor = Tractor::first();
         if ($firstTractor) {

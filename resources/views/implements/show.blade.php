@@ -6,6 +6,8 @@
 
 @section('title', $implement->name . ' — Price & Specifications')
 @section('meta_description', $implement->description ?? $implement->name . ' specifications and price.')
+@section('seo_type', 'implement')
+@section('seo_id', $implement->id)
 
 @section('json_ld')
 <script type="application/ld+json">

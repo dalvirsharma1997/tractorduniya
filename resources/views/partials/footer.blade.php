@@ -18,6 +18,7 @@
             <p class="text-sm font-semibold text-gray-900">Resources</p>
             <ul class="mt-3 space-y-2 text-sm text-gray-600">
                 <li><a href="{{ route('blog.index') }}" class="hover:text-brand-700">Blog</a></li>
+                <li><a href="{{ route('news.index') }}" class="hover:text-brand-700">News</a></li>
                 <li><a href="{{ route('emi-calculator') }}" class="hover:text-brand-700">EMI Calculator</a></li>
                 <li><a href="{{ route('faqs') }}" class="hover:text-brand-700">FAQs</a></li>
             </ul>

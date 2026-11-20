@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Faq;
+use App\Models\Redirect;
 use App\Models\State;
 use App\Models\Tractor;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class PageController extends Controller
@@ -36,6 +38,19 @@ class PageController extends Controller
         $defaultRate = \App\Models\Setting::get('emi_default_interest_rate', '10.5');
 
         return view('pages.emi-calculator', compact('defaultRate'));
+    }
+
+    public function handleUnmatched(\Illuminate\Http\Request $request): View|RedirectResponse
+    {
+        $path = '/'.ltrim($request->path(), '/');
+
+        $redirect = Redirect::where('from_path', $path)->first();
+
+        if ($redirect) {
+            return redirect($redirect->to_path, (int) $redirect->type);
+        }
+
+        abort(404);
     }
 
     public function stateLanding(State $state): View

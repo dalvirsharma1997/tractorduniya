@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('title', $dealer->name . ' — ' . $dealer->city . ', ' . $dealer->state->name)
+@section('seo_type', 'dealer')
+@section('seo_id', $dealer->id)
 
 @section('json_ld')
 <script type="application/ld+json">

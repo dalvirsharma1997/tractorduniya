@@ -2,6 +2,8 @@
 
 @section('title', $post->meta_title ?: $post->title)
 @section('meta_description', $post->meta_description ?: $post->excerpt)
+@section('seo_type', 'blog')
+@section('seo_id', $post->id)
 
 @section('json_ld')
 <script type="application/ld+json">
