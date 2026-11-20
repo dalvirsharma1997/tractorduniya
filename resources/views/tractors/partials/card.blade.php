@@ -9,7 +9,7 @@
             <img src="{{ \Illuminate\Support\Facades\Storage::url($primaryImage->path) }}" alt="{{ $tractor->name }}" loading="lazy"
                  class="h-full w-full object-cover transition group-hover:scale-105">
         @else
-            <div class="flex h-full w-full items-center justify-center text-gray-400">No image</div>
+            <div class="flex h-full w-full items-center justify-center text-gray-400">{{ __('No image') }}</div>
         @endif
     </div>
     <p class="mt-3 font-semibold text-gray-900">{{ $tractor->name }}</p>

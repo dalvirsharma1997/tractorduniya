@@ -1,15 +1,15 @@
-@props(['tractor' => null, 'implement' => null, 'heading' => 'Get the best price'])
+@props(['tractor' => null, 'implement' => null, 'heading' => null])
 
 <div {{ $attributes->merge(['class' => 'rounded-xl border border-gray-200 bg-gray-50 p-6']) }}>
-    <h3 class="text-lg font-semibold text-gray-900">{{ $heading }}</h3>
-    <p class="mt-1 text-sm text-gray-600">Share your details and a dealer near you will get in touch.</p>
+    <h3 class="text-lg font-semibold text-gray-900">{{ $heading ?? __('Get the best price') }}</h3>
+    <p class="mt-1 text-sm text-gray-600">{{ __('Share your details and a dealer near you will get in touch.') }}</p>
 
     @if (session('lead_status'))
         <div class="mt-4 rounded-md bg-brand-50 p-3 text-sm text-brand-800">
             {{ session('lead_message') }}
         </div>
     @else
-        <form method="POST" action="{{ route('leads.store') }}" class="mt-4 space-y-3">
+        <form method="POST" action="{{ localized_route('leads.store') }}" class="mt-4 space-y-3">
             @csrf
             @if($tractor)
                 <input type="hidden" name="interested_tractor_id" value="{{ $tractor->id }}">
@@ -27,24 +27,24 @@
                    class="absolute left-[-9999px]" aria-hidden="true">
 
             <div>
-                <input type="text" name="name" required placeholder="Your name"
+                <input type="text" name="name" required placeholder="{{ __('Your name') }}"
                        class="w-full rounded-md border-gray-300 text-sm focus:border-brand-500 focus:ring-brand-500">
                 @error('name') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
             </div>
             <div>
-                <input type="tel" name="phone" required placeholder="Mobile number"
+                <input type="tel" name="phone" required placeholder="{{ __('Mobile number') }}"
                        class="w-full rounded-md border-gray-300 text-sm focus:border-brand-500 focus:ring-brand-500">
                 @error('phone') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
             </div>
             <div>
-                <input type="text" name="city" placeholder="City (optional)"
+                <input type="text" name="city" placeholder="{{ __('City (optional)') }}"
                        class="w-full rounded-md border-gray-300 text-sm focus:border-brand-500 focus:ring-brand-500">
             </div>
             <button type="submit"
                     class="w-full rounded-md bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700">
-                Get Best Price
+                {{ __('Get Best Price') }}
             </button>
-            <p class="text-center text-xs text-gray-500">By submitting, you agree to be contacted about this enquiry.</p>
+            <p class="text-center text-xs text-gray-500">{{ __('By submitting, you agree to be contacted about this enquiry.') }}</p>
         </form>
     @endif
 </div>
