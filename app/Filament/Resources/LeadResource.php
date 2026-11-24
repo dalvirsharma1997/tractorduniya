@@ -46,6 +46,7 @@ class LeadResource extends Resource
                 Forms\Components\TextInput::make('email')->email(),
                 Forms\Components\Select::make('state_id')->relationship('state', 'name')->searchable(),
                 Forms\Components\Select::make('district_id')->relationship('district', 'name')->searchable(),
+                Forms\Components\TextInput::make('tehsil'),
                 Forms\Components\TextInput::make('city'),
                 Forms\Components\Select::make('interested_tractor_id')->label('Tractor')->relationship('tractor', 'name')->searchable(),
                 Forms\Components\Select::make('interested_implement_id')->label('Implement')->relationship('implement', 'name')->searchable(),
@@ -71,7 +72,9 @@ class LeadResource extends Resource
                 Tables\Columns\TextColumn::make('phone')->searchable(),
                 Tables\Columns\TextColumn::make('tractor.name')->label('Interested in')
                     ->formatStateUsing(fn ($record) => $record->tractor?->name ?? $record->implement?->name ?? '—'),
-                Tables\Columns\TextColumn::make('state.name'),
+                Tables\Columns\TextColumn::make('state.name')->label('State'),
+                Tables\Columns\TextColumn::make('district.name')->label('District')->placeholder('—'),
+                Tables\Columns\TextColumn::make('tehsil')->placeholder('—'),
                 Tables\Columns\TextColumn::make('assignedDealer.name')->label('Dealer'),
                 Tables\Columns\TextColumn::make('status')->badge()
                     ->color(fn (string $state) => match ($state) {
@@ -127,7 +130,7 @@ class LeadResource extends Resource
 
         return response()->streamDownload(function () use ($leads) {
             $out = fopen('php://output', 'w');
-            fputcsv($out, ['Date', 'Name', 'Phone', 'Email', 'State', 'District', 'City', 'Interested In', 'Source', 'Status', 'Dealer']);
+            fputcsv($out, ['Date', 'Name', 'Phone', 'Email', 'State', 'District', 'Tehsil', 'City', 'Interested In', 'Source', 'Status', 'Dealer']);
             foreach ($leads as $lead) {
                 fputcsv($out, [
                     $lead->created_at,
@@ -136,6 +139,7 @@ class LeadResource extends Resource
                     $lead->email,
                     $lead->state?->name,
                     $lead->district?->name,
+                    $lead->tehsil,
                     $lead->city,
                     $lead->tractor?->name ?? $lead->implement?->name,
                     $lead->source,
