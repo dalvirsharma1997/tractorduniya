@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Lead extends Model
 {
     protected $fillable = [
-        'name', 'phone', 'email', 'state_id', 'district_id', 'tehsil', 'city',
+        'name', 'phone', 'email', 'state_id', 'district_id', 'tehsil', 'tehsil_id', 'city',
         'interested_tractor_id', 'interested_implement_id', 'source',
         'utm_campaign', 'utm_medium', 'utm_source', 'status',
         'assigned_dealer_id', 'notes',
@@ -23,6 +23,11 @@ class Lead extends Model
     public function district(): BelongsTo
     {
         return $this->belongsTo(District::class);
+    }
+
+    public function tehsilModel(): BelongsTo
+    {
+        return $this->belongsTo(Tehsil::class, 'tehsil_id');
     }
 
     public function tractor(): BelongsTo

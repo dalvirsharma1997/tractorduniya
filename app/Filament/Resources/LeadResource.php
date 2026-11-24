@@ -46,7 +46,8 @@ class LeadResource extends Resource
                 Forms\Components\TextInput::make('email')->email(),
                 Forms\Components\Select::make('state_id')->relationship('state', 'name')->searchable(),
                 Forms\Components\Select::make('district_id')->relationship('district', 'name')->searchable(),
-                Forms\Components\TextInput::make('tehsil'),
+                Forms\Components\Select::make('tehsil_id')->label('Tehsil')->relationship('tehsilModel', 'name')->searchable(),
+                Forms\Components\TextInput::make('tehsil')->label('Tehsil (legacy text)'),
                 Forms\Components\TextInput::make('city'),
                 Forms\Components\Select::make('interested_tractor_id')->label('Tractor')->relationship('tractor', 'name')->searchable(),
                 Forms\Components\Select::make('interested_implement_id')->label('Implement')->relationship('implement', 'name')->searchable(),
@@ -74,7 +75,8 @@ class LeadResource extends Resource
                     ->formatStateUsing(fn ($record) => $record->tractor?->name ?? $record->implement?->name ?? '—'),
                 Tables\Columns\TextColumn::make('state.name')->label('State'),
                 Tables\Columns\TextColumn::make('district.name')->label('District')->placeholder('—'),
-                Tables\Columns\TextColumn::make('tehsil')->placeholder('—'),
+                Tables\Columns\TextColumn::make('tehsil')->label('Tehsil')
+                    ->formatStateUsing(fn ($record) => $record->tehsilModel?->name ?? $record->tehsil ?? '—'),
                 Tables\Columns\TextColumn::make('assignedDealer.name')->label('Dealer'),
                 Tables\Columns\TextColumn::make('status')->badge()
                     ->color(fn (string $state) => match ($state) {
@@ -126,7 +128,7 @@ class LeadResource extends Resource
 
     protected static function exportCsv(): StreamedResponse
     {
-        $leads = static::getEloquentQuery()->with(['state', 'district', 'tractor', 'implement', 'assignedDealer'])->get();
+        $leads = static::getEloquentQuery()->with(['state', 'district', 'tehsilModel', 'tractor', 'implement', 'assignedDealer'])->get();
 
         return response()->streamDownload(function () use ($leads) {
             $out = fopen('php://output', 'w');
@@ -139,7 +141,7 @@ class LeadResource extends Resource
                     $lead->email,
                     $lead->state?->name,
                     $lead->district?->name,
-                    $lead->tehsil,
+                    $lead->tehsilModel?->name ?? $lead->tehsil,
                     $lead->city,
                     $lead->tractor?->name ?? $lead->implement?->name,
                     $lead->source,

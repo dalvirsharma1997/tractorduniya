@@ -20,6 +20,7 @@ class LeadController extends Controller
             'city' => ['nullable', 'string', 'max:100'],
             'state_id' => ['nullable', 'exists:states,id'],
             'district_id' => ['nullable', 'exists:districts,id'],
+            'tehsil_id' => ['nullable', 'exists:tehsils,id'],
             'tehsil' => ['nullable', 'string', 'max:100'],
             'interested_tractor_id' => ['nullable', 'exists:tractors,id'],
             'interested_implement_id' => ['nullable', 'exists:implements,id'],

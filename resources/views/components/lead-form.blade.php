@@ -2,7 +2,7 @@
 
 @php
     $modalId = 'lead-modal-'.Str::random(8);
-    $statesWithDistricts = \App\Models\State::with('districts:id,state_id,name')->orderBy('name')->get(['id', 'name']);
+    $statesWithDistricts = \App\Models\State::with('districts:id,state_id,name', 'districts.tehsils:id,district_id,name')->orderBy('name')->get(['id', 'name']);
 @endphp
 
 <div {{ $attributes->merge(['class' => 'rounded-xl border border-gray-200 bg-gray-50 p-6 text-center']) }}>
@@ -82,6 +82,7 @@
                     <div>
                         <label class="mb-1.5 block text-sm font-medium text-gray-700">{{ __('Select District') }}</label>
                         <select name="district_id" id="{{ $modalId }}-district"
+                                onchange="window.filterTehsils_{{ str_replace('-', '_', $modalId) }}(this.value)"
                                 class="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm focus:border-brand-500 focus:ring-brand-500">
                             <option value="">{{ __('Select District') }}</option>
                         </select>
@@ -89,9 +90,11 @@
                 </div>
 
                 <div>
-                    <label class="mb-1.5 block text-sm font-medium text-gray-700">{{ __('Tehsil / Taluka (optional)') }}</label>
-                    <input type="text" name="tehsil"
-                           class="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm placeholder:text-gray-400 focus:border-brand-500 focus:ring-brand-500">
+                    <label class="mb-1.5 block text-sm font-medium text-gray-700">{{ __('Select Tehsil') }}</label>
+                    <select name="tehsil_id" id="{{ $modalId }}-tehsil"
+                            class="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm focus:border-brand-500 focus:ring-brand-500">
+                        <option value="">{{ __('Select Tehsil') }}</option>
+                    </select>
                 </div>
 
                 <label class="flex items-start gap-2.5 text-xs leading-relaxed text-gray-500">
@@ -113,6 +116,10 @@
                 $s->id => $s->districts->map(fn ($d) => ['id' => $d->id, 'name' => $d->name])->values(),
             ])->toJson() !!};
 
+            const tehsilsByDistrict = {!! $statesWithDistricts->flatMap(fn ($s) => $s->districts)->mapWithKeys(fn ($d) => [
+                $d->id => $d->tehsils->map(fn ($t) => ['id' => $t->id, 'name' => $t->name])->values(),
+            ])->toJson() !!};
+
             window.filterDistricts_{{ str_replace('-', '_', $modalId) }} = function (stateId) {
                 const select = document.getElementById('{{ $modalId }}-district');
                 select.innerHTML = '<option value="">{{ __('Select District') }}</option>';
@@ -120,6 +127,18 @@
                     const opt = document.createElement('option');
                     opt.value = d.id;
                     opt.textContent = d.name;
+                    select.appendChild(opt);
+                });
+                window.filterTehsils_{{ str_replace('-', '_', $modalId) }}('');
+            };
+
+            window.filterTehsils_{{ str_replace('-', '_', $modalId) }} = function (districtId) {
+                const select = document.getElementById('{{ $modalId }}-tehsil');
+                select.innerHTML = '<option value="">{{ __('Select Tehsil') }}</option>';
+                (tehsilsByDistrict[districtId] || []).forEach(function (t) {
+                    const opt = document.createElement('option');
+                    opt.value = t.id;
+                    opt.textContent = t.name;
                     select.appendChild(opt);
                 });
             };

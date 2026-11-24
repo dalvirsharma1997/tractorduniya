@@ -7,6 +7,7 @@ use App\Models\State;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Notifications\Notification;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
@@ -44,6 +45,31 @@ class StateResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()]),
+            ])
+            ->headerActions([
+                Tables\Actions\Action::make('import_geography_csv')
+                    ->label('Bulk import States/Districts/Tehsils (CSV)')
+                    ->icon('heroicon-o-arrow-up-tray')
+                    ->form([
+                        Forms\Components\Placeholder::make('format_help')
+                            ->label('CSV format')
+                            ->content('Columns: state, district, tehsil — one row per tehsil. The same state/district can repeat across rows; existing entries are matched and skipped, new ones are created.'),
+                        Forms\Components\FileUpload::make('file')
+                            ->label('CSV file')
+                            ->acceptedFileTypes(['text/csv', 'text/plain'])
+                            ->required(),
+                    ])
+                    ->action(function (array $data) {
+                        $counts = app(\App\Services\GeographyCsvImporter::class)->importFromPath(
+                            storage_path('app/public/'.$data['file'])
+                        );
+
+                        Notification::make()
+                            ->title('Geography import complete')
+                            ->body("Added {$counts['states']} states, {$counts['districts']} districts, {$counts['tehsils']} tehsils.")
+                            ->success()
+                            ->send();
+                    }),
             ]);
     }
 
