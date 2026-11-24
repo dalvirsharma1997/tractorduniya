@@ -8,21 +8,21 @@
     <h1 class="text-2xl font-bold text-gray-900">{{ __('All Tractors') }}</h1>
 
     <form method="GET" class="mt-6 grid grid-cols-2 gap-3 rounded-lg border border-gray-200 p-4 sm:grid-cols-3 lg:grid-cols-6">
-        <select name="brand" class="rounded-md border-gray-300 text-sm">
+        <select name="brand" class="rounded-md border border-gray-300 text-sm">
             <option value="">{{ __('Any brand') }}</option>
             @foreach($brands as $brand)
                 <option value="{{ $brand->slug }}" @selected(request('brand') === $brand->slug)>{{ $brand->name }}</option>
             @endforeach
         </select>
-        <input type="number" name="hp_min" placeholder="{{ __('Min HP') }}" value="{{ request('hp_min') }}" class="rounded-md border-gray-300 text-sm">
-        <input type="number" name="hp_max" placeholder="{{ __('Max HP') }}" value="{{ request('hp_max') }}" class="rounded-md border-gray-300 text-sm">
-        <input type="number" name="price_max" placeholder="{{ __('Max price (₹)') }}" value="{{ request('price_max') }}" class="rounded-md border-gray-300 text-sm">
-        <select name="drive_type" class="rounded-md border-gray-300 text-sm">
+        <input type="number" name="hp_min" placeholder="{{ __('Min HP') }}" value="{{ request('hp_min') }}" class="rounded-md border border-gray-300 text-sm">
+        <input type="number" name="hp_max" placeholder="{{ __('Max HP') }}" value="{{ request('hp_max') }}" class="rounded-md border border-gray-300 text-sm">
+        <input type="number" name="price_max" placeholder="{{ __('Max price (₹)') }}" value="{{ request('price_max') }}" class="rounded-md border border-gray-300 text-sm">
+        <select name="drive_type" class="rounded-md border border-gray-300 text-sm">
             <option value="">{{ __('2WD / 4WD') }}</option>
             <option value="2WD" @selected(request('drive_type') === '2WD')>2WD</option>
             <option value="4WD" @selected(request('drive_type') === '4WD')>4WD</option>
         </select>
-        <select name="state" class="rounded-md border-gray-300 text-sm">
+        <select name="state" class="rounded-md border border-gray-300 text-sm">
             <option value="">{{ __('Any state') }}</option>
             @foreach($states as $state)
                 <option value="{{ $state->slug }}" @selected(request('state') === $state->slug)>{{ $state->name }}</option>

@@ -11,17 +11,17 @@
         <div>
             <label class="block text-sm font-medium text-gray-700">Loan amount (₹)</label>
             <input type="number" id="principal" value="500000" min="0"
-                   class="mt-1 w-full rounded-md border-gray-300 focus:border-brand-500 focus:ring-brand-500">
+                   class="mt-1 w-full rounded-md border border-gray-300 focus:border-brand-500 focus:ring-brand-500">
         </div>
         <div>
             <label class="block text-sm font-medium text-gray-700">Interest rate (% per annum)</label>
             <input type="number" id="rate" value="{{ $defaultRate }}" step="0.1" min="0"
-                   class="mt-1 w-full rounded-md border-gray-300 focus:border-brand-500 focus:ring-brand-500">
+                   class="mt-1 w-full rounded-md border border-gray-300 focus:border-brand-500 focus:ring-brand-500">
         </div>
         <div>
             <label class="block text-sm font-medium text-gray-700">Tenure (months)</label>
             <input type="number" id="tenure" value="36" min="1"
-                   class="mt-1 w-full rounded-md border-gray-300 focus:border-brand-500 focus:ring-brand-500">
+                   class="mt-1 w-full rounded-md border border-gray-300 focus:border-brand-500 focus:ring-brand-500">
         </div>
         <button type="button" onclick="calculateEmi()"
                 class="w-full rounded-md bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700">

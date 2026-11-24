@@ -8,19 +8,19 @@
     <h1 class="text-2xl font-bold text-gray-900">Farm Implements</h1>
 
     <form method="GET" class="mt-6 grid grid-cols-2 gap-3 rounded-lg border border-gray-200 p-4 sm:grid-cols-4">
-        <select name="type" class="rounded-md border-gray-300 text-sm">
+        <select name="type" class="rounded-md border border-gray-300 text-sm">
             <option value="">Any type</option>
             @foreach($types as $type)
                 <option value="{{ $type->name }}" @selected(request('type') === $type->name)>{{ $type->name }}</option>
             @endforeach
         </select>
-        <select name="brand" class="rounded-md border-gray-300 text-sm">
+        <select name="brand" class="rounded-md border border-gray-300 text-sm">
             <option value="">Any brand</option>
             @foreach($brands as $brand)
                 <option value="{{ $brand->slug }}" @selected(request('brand') === $brand->slug)>{{ $brand->name }}</option>
             @endforeach
         </select>
-        <input type="number" name="hp" placeholder="Your tractor HP" value="{{ request('hp') }}" class="rounded-md border-gray-300 text-sm">
+        <input type="number" name="hp" placeholder="Your tractor HP" value="{{ request('hp') }}" class="rounded-md border border-gray-300 text-sm">
         <button type="submit" class="rounded-md bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700">Filter</button>
     </form>
 

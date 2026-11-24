@@ -82,20 +82,20 @@
 
             <form action="{{ localized_route('tractors.index') }}" method="GET"
                   class="mx-auto mt-8 flex max-w-3xl flex-col gap-3 rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:flex-row">
-                <select name="brand" class="flex-1 rounded-md border-gray-300 text-sm">
+                <select name="brand" class="flex-1 rounded-md border border-gray-300 text-sm">
                     <option value="">{{ __('Any brand') }}</option>
                     @foreach($brands as $brand)
                         <option value="{{ $brand->slug }}">{{ $brand->name }}</option>
                     @endforeach
                 </select>
-                <select name="hp_max" class="flex-1 rounded-md border-gray-300 text-sm">
+                <select name="hp_max" class="flex-1 rounded-md border border-gray-300 text-sm">
                     <option value="">{{ __('Any HP') }}</option>
                     <option value="30">{{ __('Up to :hp HP', ['hp' => 30]) }}</option>
                     <option value="45">{{ __('Up to :hp HP', ['hp' => 45]) }}</option>
                     <option value="60">{{ __('Up to :hp HP', ['hp' => 60]) }}</option>
                     <option value="999">{{ __(':hp HP+', ['hp' => 60]) }}</option>
                 </select>
-                <select name="price_max" class="flex-1 rounded-md border-gray-300 text-sm">
+                <select name="price_max" class="flex-1 rounded-md border border-gray-300 text-sm">
                     <option value="">{{ __('Any budget') }}</option>
                     <option value="500000">{{ __('Up to ₹:amount Lakh', ['amount' => 5]) }}</option>
                     <option value="800000">{{ __('Up to ₹:amount Lakh', ['amount' => 8]) }}</option>

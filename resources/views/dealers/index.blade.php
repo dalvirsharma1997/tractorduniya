@@ -8,13 +8,13 @@
     <h1 class="text-2xl font-bold text-gray-900">Dealer Directory</h1>
 
     <form method="GET" class="mt-6 grid grid-cols-2 gap-3 rounded-lg border border-gray-200 p-4 sm:grid-cols-3">
-        <select name="state" class="rounded-md border-gray-300 text-sm">
+        <select name="state" class="rounded-md border border-gray-300 text-sm">
             <option value="">Any state</option>
             @foreach($states as $state)
                 <option value="{{ $state->id }}" @selected((string) request('state') === (string) $state->id)>{{ $state->name }}</option>
             @endforeach
         </select>
-        <select name="brand" class="rounded-md border-gray-300 text-sm">
+        <select name="brand" class="rounded-md border border-gray-300 text-sm">
             <option value="">Any brand</option>
             @foreach($brands as $brand)
                 <option value="{{ $brand->slug }}" @selected(request('brand') === $brand->slug)>{{ $brand->name }}</option>

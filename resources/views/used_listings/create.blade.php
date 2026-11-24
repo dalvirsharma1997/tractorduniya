@@ -23,7 +23,7 @@
 
         <div>
             <label class="block text-sm font-medium text-gray-700">What are you selling?</label>
-            <select name="listing_type" id="listing_type" required class="mt-1 w-full rounded-md border-gray-300" onchange="toggleFields()">
+            <select name="listing_type" id="listing_type" required class="mt-1 w-full rounded-md border border-gray-300" onchange="toggleFields()">
                 <option value="tractor">Tractor</option>
                 <option value="implement">Implement</option>
             </select>
@@ -31,7 +31,7 @@
 
         <div id="tractor-field">
             <label class="block text-sm font-medium text-gray-700">Tractor model</label>
-            <select name="tractor_id" class="mt-1 w-full rounded-md border-gray-300">
+            <select name="tractor_id" class="mt-1 w-full rounded-md border border-gray-300">
                 <option value="">Select model</option>
                 @foreach($tractors as $t)
                     <option value="{{ $t->id }}">{{ $t->name }}</option>
@@ -41,7 +41,7 @@
 
         <div id="implement-field" class="hidden">
             <label class="block text-sm font-medium text-gray-700">Implement</label>
-            <select name="implement_id" class="mt-1 w-full rounded-md border-gray-300">
+            <select name="implement_id" class="mt-1 w-full rounded-md border border-gray-300">
                 <option value="">Select implement</option>
                 @foreach($implements as $i)
                     <option value="{{ $i->id }}">{{ $i->name }}</option>
@@ -52,22 +52,22 @@
         <div class="grid grid-cols-2 gap-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700">Your name</label>
-                <input type="text" name="seller_name" required class="mt-1 w-full rounded-md border-gray-300">
+                <input type="text" name="seller_name" required class="mt-1 w-full rounded-md border border-gray-300">
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">Phone</label>
-                <input type="tel" name="seller_phone" required class="mt-1 w-full rounded-md border-gray-300">
+                <input type="tel" name="seller_phone" required class="mt-1 w-full rounded-md border border-gray-300">
             </div>
         </div>
 
         <div class="grid grid-cols-2 gap-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700">City</label>
-                <input type="text" name="city" required class="mt-1 w-full rounded-md border-gray-300">
+                <input type="text" name="city" required class="mt-1 w-full rounded-md border border-gray-300">
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">State</label>
-                <select name="state_id" required class="mt-1 w-full rounded-md border-gray-300">
+                <select name="state_id" required class="mt-1 w-full rounded-md border border-gray-300">
                     <option value="">Select state</option>
                     @foreach($states as $state)
                         <option value="{{ $state->id }}">{{ $state->name }}</option>
@@ -79,15 +79,15 @@
         <div class="grid grid-cols-3 gap-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700">Year of purchase</label>
-                <input type="number" name="year_of_purchase" min="1980" max="{{ date('Y') }}" class="mt-1 w-full rounded-md border-gray-300">
+                <input type="number" name="year_of_purchase" min="1980" max="{{ date('Y') }}" class="mt-1 w-full rounded-md border border-gray-300">
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">Hours used</label>
-                <input type="number" name="hours_used" min="0" class="mt-1 w-full rounded-md border-gray-300">
+                <input type="number" name="hours_used" min="0" class="mt-1 w-full rounded-md border border-gray-300">
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">Condition</label>
-                <select name="condition" required class="mt-1 w-full rounded-md border-gray-300">
+                <select name="condition" required class="mt-1 w-full rounded-md border border-gray-300">
                     <option value="excellent">Excellent</option>
                     <option value="good" selected>Good</option>
                     <option value="fair">Fair</option>
@@ -97,12 +97,12 @@
 
         <div>
             <label class="block text-sm font-medium text-gray-700">Asking price (₹)</label>
-            <input type="number" name="asking_price" required min="0" class="mt-1 w-full rounded-md border-gray-300">
+            <input type="number" name="asking_price" required min="0" class="mt-1 w-full rounded-md border border-gray-300">
         </div>
 
         <div>
             <label class="block text-sm font-medium text-gray-700">Description</label>
-            <textarea name="description" rows="3" class="mt-1 w-full rounded-md border-gray-300"></textarea>
+            <textarea name="description" rows="3" class="mt-1 w-full rounded-md border border-gray-300"></textarea>
         </div>
 
         <div>

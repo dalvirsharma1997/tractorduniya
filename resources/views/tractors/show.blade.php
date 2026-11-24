@@ -81,7 +81,7 @@
 
             <div id="tab-price" class="tab-panel hidden py-6">
                 <label class="block text-sm font-medium text-gray-700">{{ __('Select your state for an accurate on-road price') }}</label>
-                <select id="state-selector" class="mt-2 rounded-md border-gray-300 text-sm" onchange="updatePrice(this.value)">
+                <select id="state-selector" class="mt-2 rounded-md border border-gray-300 text-sm" onchange="updatePrice(this.value)">
                     <option value="">{{ __('National (ex-showroom)') }}</option>
                     @foreach($states as $state)
                         <option value="{{ $state->id }}">{{ $state->name }}</option>

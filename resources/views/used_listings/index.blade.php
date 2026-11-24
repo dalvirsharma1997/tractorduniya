@@ -17,12 +17,12 @@
     @endif
 
     <form method="GET" class="mt-6 grid grid-cols-2 gap-3 rounded-lg border border-gray-200 p-4 sm:grid-cols-3">
-        <select name="type" class="rounded-md border-gray-300 text-sm">
+        <select name="type" class="rounded-md border border-gray-300 text-sm">
             <option value="">Tractor or Implement</option>
             <option value="tractor" @selected(request('type') === 'tractor')>Tractor</option>
             <option value="implement" @selected(request('type') === 'implement')>Implement</option>
         </select>
-        <select name="state" class="rounded-md border-gray-300 text-sm">
+        <select name="state" class="rounded-md border border-gray-300 text-sm">
             <option value="">Any state</option>
             @foreach($states as $state)
                 <option value="{{ $state->id }}" @selected((string) request('state') === (string) $state->id)>{{ $state->name }}</option>
