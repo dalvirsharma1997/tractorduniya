@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedInteger('priority')->default(0);
             $table->timestamps();
 
-            $table->index(['district_id', 'state_id', 'brand_id', 'priority']);
+            $table->index(['district_id', 'state_id', 'brand_id', 'priority'], 'lar_district_state_brand_priority_idx');
         });
     }
 
