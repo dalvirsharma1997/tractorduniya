@@ -85,6 +85,30 @@ class PublicPagesSmokeTest extends TestCase
         $this->assertDatabaseHas('leads', ['phone' => '9812345670', 'interested_tractor_id' => $tractor->id]);
     }
 
+    public function test_lead_submission_with_state_district_tehsil(): void
+    {
+        $tractor = Tractor::first();
+        $state = State::first();
+        $district = $state->districts()->first();
+
+        $response = $this->post('/leads', [
+            'name' => 'Suresh Patel',
+            'phone' => '9900011122',
+            'interested_tractor_id' => $tractor->id,
+            'state_id' => $state->id,
+            'district_id' => $district->id,
+            'tehsil' => 'Baramati',
+        ]);
+
+        $response->assertRedirect();
+        $this->assertDatabaseHas('leads', [
+            'phone' => '9900011122',
+            'state_id' => $state->id,
+            'district_id' => $district->id,
+            'tehsil' => 'Baramati',
+        ]);
+    }
+
     public function test_sell_listing_flow(): void
     {
         $state = State::first();

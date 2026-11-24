@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Lead extends Model
 {
     protected $fillable = [
-        'name', 'phone', 'email', 'state_id', 'district_id', 'city',
+        'name', 'phone', 'email', 'state_id', 'district_id', 'tehsil', 'city',
         'interested_tractor_id', 'interested_implement_id', 'source',
         'utm_campaign', 'utm_medium', 'utm_source', 'status',
         'assigned_dealer_id', 'notes',
