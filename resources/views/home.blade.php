@@ -140,32 +140,6 @@
     @endif
 
     <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <h2 class="text-xl font-bold text-gray-900">{{ __('Tractors by Budget') }}</h2>
-        <div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-            @foreach($budgetRanges as [$label, $priceMin, $priceMax])
-                <a href="{{ localized_route('tractors.index', array_filter(['price_min' => $priceMin, 'price_max' => $priceMax])) }}"
-                   class="rounded-lg border border-gray-200 bg-white px-4 py-5 text-center text-sm font-medium text-gray-700 transition hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700">
-                    {{ __($label) }}
-                </a>
-            @endforeach
-        </div>
-    </section>
-
-    <section class="bg-gray-50 py-12">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <h2 class="text-xl font-bold text-gray-900">{{ __('Tractors by HP') }}</h2>
-            <div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-                @foreach($hpRanges as [$label, $hpMin, $hpMax])
-                    <a href="{{ localized_route('tractors.index', array_filter(['hp_min' => $hpMin, 'hp_max' => $hpMax])) }}"
-                       class="rounded-lg border border-gray-200 bg-white px-4 py-5 text-center text-sm font-medium text-gray-700 transition hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700">
-                        {{ __($label) }}
-                    </a>
-                @endforeach
-            </div>
-        </div>
-    </section>
-
-    <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between">
             <h2 class="text-xl font-bold text-gray-900">{{ __('Popular Tractors') }}</h2>
             <a href="{{ localized_route('tractors.index') }}" class="text-sm font-medium text-brand-700 hover:underline">{{ __('View all') }} &rarr;</a>
@@ -176,6 +150,32 @@
             @empty
                 <p class="col-span-full text-gray-500">{{ __('No featured tractors yet.') }}</p>
             @endforelse
+        </div>
+    </section>
+
+    <section class="bg-gray-50 py-12">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <h2 class="text-xl font-bold text-gray-900">{{ __('Tractors by Budget') }}</h2>
+            <div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+                @foreach($budgetRanges as [$label, $priceMin, $priceMax])
+                    <a href="{{ localized_route('tractors.index', array_filter(['price_min' => $priceMin, 'price_max' => $priceMax])) }}"
+                       class="rounded-lg border border-gray-200 bg-white px-4 py-5 text-center text-sm font-medium text-gray-700 transition hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700">
+                        {{ __($label) }}
+                    </a>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+    <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <h2 class="text-xl font-bold text-gray-900">{{ __('Tractors by HP') }}</h2>
+        <div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+            @foreach($hpRanges as [$label, $hpMin, $hpMax])
+                <a href="{{ localized_route('tractors.index', array_filter(['hp_min' => $hpMin, 'hp_max' => $hpMax])) }}"
+                   class="rounded-lg border border-gray-200 bg-white px-4 py-5 text-center text-sm font-medium text-gray-700 transition hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700">
+                    {{ __($label) }}
+                </a>
+            @endforeach
         </div>
     </section>
 
@@ -244,6 +244,23 @@
             <a href="{{ localized_route('contact') }}" class="mt-4 inline-block rounded-md bg-white px-6 py-2 text-sm font-semibold text-brand-700 hover:bg-brand-50">
                 {{ __('Get in touch') }}
             </a>
+        </div>
+    </section>
+
+    <section class="bg-gray-50 py-12">
+        <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+            <h2 class="text-xl font-bold text-gray-900">{{ __('About TractorDuniya.in') }}</h2>
+            <div class="mt-4 space-y-4 text-sm leading-relaxed text-gray-600">
+                <p>{{ __('TractorDuniya.in is an online destination built for Indian farmers who want clear, up-to-date information before buying a tractor or implement. Alongside specifications and on-road prices, the platform connects you with verified dealers in your own district, lets you compare models side by side, and gives you a place to buy or sell used tractors directly.') }}</p>
+
+                <p>{{ __('Our tractor listings cover every major brand sold in India — Mahindra, Swaraj, Eicher, Sonalika, Farmtrac, Powertrac, New Holland, John Deere, Massey Ferguson, Kubota and more — with details on horsepower, drive type, engine capacity, and lifting capacity for each model, so you can shortlist by the numbers that matter to your farm.') }}</p>
+
+                <p>{{ __('Looking by category is often the fastest way to narrow things down. Browse tractors by horsepower range, by budget, or jump straight into focused categories such as mini tractors, compact tractors, utility tractors, orchard tractors, and 4WD tractors. Each category page lists only models that fit, with current prices and specs.') }}</p>
+
+                <p>{{ __('Mini tractors in particular suit orchards, vineyards, polyhouses, and smaller plots where a full-size tractor is impractical. They remain capable enough for routine jobs like rotavation, spraying, and light haulage, while staying easy to manoeuvre in tight spaces. We list mini tractor models from leading manufacturers with the same depth of detail as our full tractor catalogue.') }}</p>
+
+                <p>{{ __('Beyond tractors, TractorDuniya.in also covers farm implements — rotavators, cultivators, seed drills, ploughs, and more — along with an EMI calculator to help plan financing and a growing library of articles on subsidy schemes, buying guides, and farm mechanisation.') }}</p>
+            </div>
         </div>
     </section>
 @endsection
