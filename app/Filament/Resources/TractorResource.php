@@ -143,6 +143,23 @@ class TractorResource extends Resource
                                     ])
                                     ->columns(1),
                             ]),
+
+                        Forms\Components\Tabs\Tab::make('FAQs')
+                            ->schema([
+                                Forms\Components\Repeater::make('faqs')
+                                    ->relationship('faqs')
+                                    ->label('')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('question')->required()->columnSpanFull(),
+                                        Forms\Components\Textarea::make('answer')->required()->rows(2)->columnSpanFull(),
+                                    ])
+                                    ->orderColumn('sort_order')
+                                    ->collapsible()
+                                    ->itemLabel(fn (array $state): ?string => $state['question'] ?? null)
+                                    ->addActionLabel('Add FAQ')
+                                    ->defaultItems(0)
+                                    ->columnSpanFull(),
+                            ]),
                     ]),
             ]);
     }
