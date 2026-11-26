@@ -47,6 +47,7 @@ class ImplementResource extends Resource
                                 Forms\Components\TextInput::make('compatible_hp_max')->label('Compatible HP (max)')->numeric(),
                                 Forms\Components\TextInput::make('price_min')->numeric()->prefix('₹'),
                                 Forms\Components\TextInput::make('price_max')->numeric()->prefix('₹'),
+                                Forms\Components\Toggle::make('show_comparison')->label('Show "Compare Tractors" section on this page')->default(true),
                                 Forms\Components\Textarea::make('description')->columnSpanFull(),
                                 Forms\Components\RichEditor::make('footer_content')
                                     ->label('Text section (shown before the footer)')

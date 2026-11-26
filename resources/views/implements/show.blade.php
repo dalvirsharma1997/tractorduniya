@@ -90,6 +90,18 @@
         </div>
     </div>
 
+    @if($implement->show_comparison && $comparableTractors->count() >= 2)
+        <div class="mt-12">
+            <h2 class="text-xl font-bold text-gray-900">{{ __('Compare Tractors') }}</h2>
+            <p class="mt-1 text-sm text-gray-500">{{ __('Tractors compatible with this implement.') }}</p>
+            <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-3">
+                @foreach($comparableTractors->skip(1) as $item)
+                    <x-compare-card :left="$comparableTractors->first()" :right="$item" />
+                @endforeach
+            </div>
+        </div>
+    @endif
+
     @if($implement->footer_content)
         <section class="mt-12 border-t border-gray-200 pt-8">
             <h2 class="text-xl font-bold text-gray-900">{{ __('About :implement', ['implement' => $implement->name]) }}</h2>

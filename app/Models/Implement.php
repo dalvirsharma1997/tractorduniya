@@ -13,8 +13,13 @@ class Implement extends Model
 
     protected $fillable = [
         'brand_id', 'category_id', 'name', 'slug', 'type', 'compatible_hp_min',
-        'compatible_hp_max', 'price_min', 'price_max', 'description', 'footer_content', 'status', 'created_by',
+        'compatible_hp_max', 'price_min', 'price_max', 'description', 'footer_content', 'show_comparison', 'status', 'created_by',
     ];
+
+    protected function casts(): array
+    {
+        return ['show_comparison' => 'boolean'];
+    }
 
     public function brand(): BelongsTo
     {

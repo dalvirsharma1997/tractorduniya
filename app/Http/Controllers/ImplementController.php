@@ -6,6 +6,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Faq;
 use App\Models\Implement;
+use App\Models\Tractor;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -48,6 +49,13 @@ class ImplementController extends Controller
             ->limit(4)
             ->get();
 
-        return view('implements.show', compact('implement', 'faqs', 'similar'));
+        $comparableTractors = Tractor::where('status', 'active')
+            ->when($implement->compatible_hp_min, fn ($q) => $q->where('hp', '>=', $implement->compatible_hp_min))
+            ->when($implement->compatible_hp_max, fn ($q) => $q->where('hp', '<=', $implement->compatible_hp_max))
+            ->with(['brand', 'images'])
+            ->limit(4)
+            ->get();
+
+        return view('implements.show', compact('implement', 'faqs', 'similar', 'comparableTractors'));
     }
 }
