@@ -52,9 +52,17 @@ class ImplementController extends Controller
         $comparableTractors = Tractor::where('status', 'active')
             ->when($implement->compatible_hp_min, fn ($q) => $q->where('hp', '>=', $implement->compatible_hp_min))
             ->when($implement->compatible_hp_max, fn ($q) => $q->where('hp', '<=', $implement->compatible_hp_max))
-            ->with(['brand', 'images'])
+            ->with(['brand', 'images', 'prices'])
             ->limit(4)
             ->get();
+
+        if ($comparableTractors->count() < 2) {
+            $comparableTractors = Tractor::where('status', 'active')
+                ->with(['brand', 'images', 'prices'])
+                ->inRandomOrder()
+                ->limit(4)
+                ->get();
+        }
 
         return view('implements.show', compact('implement', 'faqs', 'similar', 'comparableTractors'));
     }

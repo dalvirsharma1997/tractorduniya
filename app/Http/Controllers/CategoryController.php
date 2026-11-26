@@ -21,9 +21,17 @@ class CategoryController extends Controller
             $comparableTractors = Tractor::where('status', 'active')
                 ->when($hpRange?->min_hp, fn ($q) => $q->where('hp', '>=', $hpRange->min_hp))
                 ->when($hpRange?->max_hp, fn ($q) => $q->where('hp', '<=', $hpRange->max_hp))
-                ->with(['brand', 'images'])
+                ->with(['brand', 'images', 'prices'])
                 ->limit(4)
                 ->get();
+
+            if ($comparableTractors->count() < 2) {
+                $comparableTractors = Tractor::where('status', 'active')
+                    ->with(['brand', 'images', 'prices'])
+                    ->inRandomOrder()
+                    ->limit(4)
+                    ->get();
+            }
 
             return view('categories.implements', compact('category', 'implements', 'comparableTractors'));
         }
@@ -36,7 +44,17 @@ class CategoryController extends Controller
             ->limit(4)
             ->get();
 
-        $comparableTractors = $category->tractors()->where('status', 'active')->limit(4)->get();
+        $comparableTractors = $category->tractors()->where('status', 'active')->with(['brand', 'images', 'prices'])->limit(4)->get();
+
+        if ($comparableTractors->count() < 2) {
+            $fallbackTractors = Tractor::where('status', 'active')
+                ->where('category_id', '!=', $category->id)
+                ->with(['brand', 'images', 'prices'])
+                ->inRandomOrder()
+                ->limit(4 - $comparableTractors->count())
+                ->get();
+            $comparableTractors = $comparableTractors->concat($fallbackTractors)->values();
+        }
 
         return view('categories.tractors', compact('category', 'tractors', 'categoryImplements', 'comparableTractors'));
     }
