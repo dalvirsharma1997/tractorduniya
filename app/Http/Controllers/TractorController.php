@@ -112,6 +112,11 @@ class TractorController extends Controller
 
         abort_if($tractors->count() < 2, 404);
 
-        return view('tractors.compare', compact('tractors'));
+        $allTractors = Tractor::where('status', 'active')
+            ->with('brand')
+            ->orderBy('name')
+            ->get(['id', 'name', 'slug', 'brand_id']);
+
+        return view('tractors.compare', compact('tractors', 'allTractors'));
     }
 }
