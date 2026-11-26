@@ -114,6 +114,31 @@
         </div>
     </section>
 
+    @if($brands->isNotEmpty())
+        <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between">
+                <h2 class="text-xl font-bold text-gray-900">{{ __('Shop by Brand') }}</h2>
+                <a href="{{ localized_route('tractors.index') }}" class="text-sm font-medium text-brand-700 hover:underline">{{ __('View all') }} &rarr;</a>
+            </div>
+            <div class="mt-6 grid grid-cols-3 gap-4 sm:grid-cols-4 lg:grid-cols-6">
+                @foreach($brands as $brand)
+                    <a href="{{ localized_route('brands.show', $brand) }}"
+                       class="group flex flex-col items-center gap-3 rounded-xl border border-gray-200 bg-white p-4 text-center transition hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-md">
+                        <div class="flex h-14 w-full items-center justify-center">
+                            @if($brand->logo_path)
+                                <img src="{{ \Illuminate\Support\Facades\Storage::url($brand->logo_path) }}" alt="{{ $brand->name }}"
+                                     loading="lazy" class="max-h-14 max-w-full object-contain">
+                            @else
+                                <span class="text-lg font-bold text-gray-300">{{ $brand->name }}</span>
+                            @endif
+                        </div>
+                        <span class="text-xs font-medium text-gray-700 group-hover:text-brand-700">{{ $brand->name }}</span>
+                    </a>
+                @endforeach
+            </div>
+        </section>
+    @endif
+
     <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between">
             <h2 class="text-xl font-bold text-gray-900">{{ __('Popular Tractors') }}</h2>
