@@ -140,6 +140,32 @@
     @endif
 
     <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <h2 class="text-xl font-bold text-gray-900">{{ __('Tractors by Budget') }}</h2>
+        <div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+            @foreach($budgetRanges as [$label, $priceMin, $priceMax])
+                <a href="{{ localized_route('tractors.index', array_filter(['price_min' => $priceMin, 'price_max' => $priceMax])) }}"
+                   class="rounded-lg border border-gray-200 bg-white px-4 py-5 text-center text-sm font-medium text-gray-700 transition hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700">
+                    {{ __($label) }}
+                </a>
+            @endforeach
+        </div>
+    </section>
+
+    <section class="bg-gray-50 py-12">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <h2 class="text-xl font-bold text-gray-900">{{ __('Tractors by HP') }}</h2>
+            <div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+                @foreach($hpRanges as [$label, $hpMin, $hpMax])
+                    <a href="{{ localized_route('tractors.index', array_filter(['hp_min' => $hpMin, 'hp_max' => $hpMax])) }}"
+                       class="rounded-lg border border-gray-200 bg-white px-4 py-5 text-center text-sm font-medium text-gray-700 transition hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700">
+                        {{ __($label) }}
+                    </a>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+    <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between">
             <h2 class="text-xl font-bold text-gray-900">{{ __('Popular Tractors') }}</h2>
             <a href="{{ localized_route('tractors.index') }}" class="text-sm font-medium text-brand-700 hover:underline">{{ __('View all') }} &rarr;</a>
@@ -153,16 +179,46 @@
         </div>
     </section>
 
-    <section class="bg-gray-50 py-12">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <h2 class="text-xl font-bold text-gray-900">{{ __('Latest Launches') }}</h2>
-            <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                @foreach($latestLaunches as $tractor)
-                    @include('tractors.partials.card', ['tractor' => $tractor])
-                @endforeach
+    @if($miniTractors->isNotEmpty())
+        <section class="bg-gray-50 py-12">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-xl font-bold text-gray-900">{{ __('Mini Tractors') }}</h2>
+                    <a href="{{ localized_route('categories.show', $miniTractorsCategory) }}" class="text-sm font-medium text-brand-700 hover:underline">{{ __('View all') }} &rarr;</a>
+                </div>
+                <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                    @foreach($miniTractors as $tractor)
+                        @include('tractors.partials.card', ['tractor' => $tractor])
+                    @endforeach
+                </div>
             </div>
+        </section>
+    @endif
+
+    <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <h2 class="text-xl font-bold text-gray-900">{{ __('Latest Launches') }}</h2>
+        <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            @foreach($latestLaunches as $tractor)
+                @include('tractors.partials.card', ['tractor' => $tractor])
+            @endforeach
         </div>
     </section>
+
+    @if($popularImplements->isNotEmpty())
+        <section class="bg-gray-50 py-12">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-xl font-bold text-gray-900">{{ __('Tractor Implements') }}</h2>
+                    <a href="{{ localized_route('implements.index') }}" class="text-sm font-medium text-brand-700 hover:underline">{{ __('View all') }} &rarr;</a>
+                </div>
+                <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                    @foreach($popularImplements as $implement)
+                        @include('implements.partials.card', ['implement' => $implement])
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
 
     <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between">

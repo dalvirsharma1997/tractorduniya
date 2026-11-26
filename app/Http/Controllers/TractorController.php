@@ -32,6 +32,10 @@ class TractorController extends Controller
             $query->whereHas('prices', fn ($q) => $q->where('price_min', '<=', $priceMax));
         }
 
+        if ($priceMin = $request->get('price_min')) {
+            $query->whereHas('prices', fn ($q) => $q->where('price_max', '>=', $priceMin));
+        }
+
         if ($driveType = $request->get('drive_type')) {
             $query->where('drive_type', $driveType);
         }
