@@ -61,16 +61,23 @@ class BrandResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\ReplicateAction::make()
-                    ->excludeAttributes(['slug', 'tractors_count', 'implements_count'])
-                    ->beforeReplicaSaved(function (\App\Models\Brand $replica) {
-                        $replica->name = $replica->name.' (Copy)';
-                        $replica->slug = Str::slug($replica->name).'-'.Str::random(6);
-                    }),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\BulkAction::make('replicate')
+                        ->label('Replicate')
+                        ->icon('heroicon-o-square-2-stack')
+                        ->requiresConfirmation()
+                        ->action(function (\Illuminate\Database\Eloquent\Collection $records) {
+                            foreach ($records as $record) {
+                                $replica = $record->replicate(['slug', 'tractors_count', 'implements_count']);
+                                $replica->name = $replica->name.' (Copy)';
+                                $replica->slug = Str::slug($replica->name).'-'.Str::random(6);
+                                $replica->save();
+                            }
+                        })
+                        ->deselectRecordsAfterCompletion(),
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
