@@ -171,6 +171,38 @@
         </div>
     </div>
 
+    @if($compatibleImplements->isNotEmpty())
+        <div class="mt-12">
+            <div class="flex items-center justify-between">
+                <h2 class="text-xl font-bold text-gray-900">{{ __('Implements') }}</h2>
+                <a href="{{ localized_route('implements.index') }}" class="text-sm font-medium text-brand-700 hover:underline">{{ __('View all') }} &rarr;</a>
+            </div>
+            <p class="mt-1 text-sm text-gray-500">{{ __('Implements compatible with this HP range.') }}</p>
+            <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                @foreach($compatibleImplements as $implement)
+                    @include('implements.partials.card', ['implement' => $implement])
+                @endforeach
+            </div>
+        </div>
+    @endif
+
+    @if($tractor->show_comparison && $similar->isNotEmpty())
+        <div class="mt-12">
+            <h2 class="text-xl font-bold text-gray-900">{{ __('Compare Tractors') }}</h2>
+            <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+                @foreach($similar->take(3) as $item)
+                    <div class="flex items-center justify-between rounded-lg border border-gray-200 p-4">
+                        <span class="text-sm font-medium text-gray-900">{{ $tractor->name }} {{ __('vs') }} {{ $item->name }}</span>
+                        <a href="{{ localized_route('tractors.compare', ['slugs' => $tractor->slug.'-vs-'.$item->slug]) }}"
+                           class="ml-3 shrink-0 rounded-md bg-brand-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-brand-700">
+                            {{ __('Compare') }}
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    @endif
+
     @if($tractor->footer_content)
         <section class="mt-12 border-t border-gray-200 pt-8">
             <h2 class="text-xl font-bold text-gray-900">{{ __('About :tractor', ['tractor' => $tractor->name]) }}</h2>

@@ -21,6 +21,37 @@
 
     <div class="mt-8">{{ $tractors->links() }}</div>
 
+    @if($categoryImplements->isNotEmpty())
+        <div class="mt-12">
+            <div class="flex items-center justify-between">
+                <h2 class="text-xl font-bold text-gray-900">{{ __('Implements') }}</h2>
+                <a href="{{ localized_route('implements.index') }}" class="text-sm font-medium text-brand-700 hover:underline">{{ __('View all') }} &rarr;</a>
+            </div>
+            <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                @foreach($categoryImplements as $implement)
+                    @include('implements.partials.card', ['implement' => $implement])
+                @endforeach
+            </div>
+        </div>
+    @endif
+
+    @if($category->show_comparison && $comparableTractors->count() >= 2)
+        <div class="mt-12">
+            <h2 class="text-xl font-bold text-gray-900">{{ __('Compare Tractors') }}</h2>
+            <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+                @foreach($comparableTractors->skip(1) as $item)
+                    <div class="flex items-center justify-between rounded-lg border border-gray-200 p-4">
+                        <span class="text-sm font-medium text-gray-900">{{ $comparableTractors->first()->name }} {{ __('vs') }} {{ $item->name }}</span>
+                        <a href="{{ localized_route('tractors.compare', ['slugs' => $comparableTractors->first()->slug.'-vs-'.$item->slug]) }}"
+                           class="ml-3 shrink-0 rounded-md bg-brand-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-brand-700">
+                            {{ __('Compare') }}
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    @endif
+
     @if($category->footer_content)
         <section class="mt-12 border-t border-gray-200 pt-8">
             <h2 class="text-xl font-bold text-gray-900">{{ __('About :category', ['category' => $category->name]) }}</h2>

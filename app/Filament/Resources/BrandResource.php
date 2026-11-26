@@ -41,6 +41,9 @@ class BrandResource extends Resource
                     ->label('Text section (shown before the footer)')
                     ->helperText('A longer write-up shown as its own section near the bottom of this brand\'s page, above the footer.')
                     ->columnSpanFull(),
+                Forms\Components\Toggle::make('show_comparison')
+                    ->label('Show "Compare Tractors" section on this brand\'s page')
+                    ->default(true),
                 Forms\Components\Select::make('status')
                     ->options(['active' => 'Active', 'inactive' => 'Inactive'])
                     ->required()

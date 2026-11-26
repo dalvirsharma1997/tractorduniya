@@ -9,7 +9,12 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Brand extends Model
 {
-    protected $fillable = ['name', 'slug', 'logo_path', 'country', 'description', 'footer_content', 'status'];
+    protected $fillable = ['name', 'slug', 'logo_path', 'country', 'description', 'footer_content', 'show_comparison', 'status'];
+
+    protected function casts(): array
+    {
+        return ['show_comparison' => 'boolean'];
+    }
 
     public function tractors(): HasMany
     {

@@ -53,6 +53,7 @@ class TractorResource extends Resource
                                     ->required()
                                     ->default('active'),
                                 Forms\Components\Toggle::make('is_featured')->label('Featured on homepage'),
+                                Forms\Components\Toggle::make('show_comparison')->label('Show "Compare Tractors" section on this page')->default(true),
                                 Forms\Components\TextInput::make('launch_year')->numeric(),
                                 Forms\Components\TextInput::make('warranty_text')->columnSpanFull(),
                                 Forms\Components\Textarea::make('description')->rows(4)->columnSpanFull(),

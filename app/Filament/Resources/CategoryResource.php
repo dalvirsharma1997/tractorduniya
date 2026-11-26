@@ -47,6 +47,9 @@ class CategoryResource extends Resource
                     ->label('Text section (shown before the footer)')
                     ->helperText('A longer write-up shown as its own section near the bottom of this category\'s page, above the footer.')
                     ->columnSpanFull(),
+                Forms\Components\Toggle::make('show_comparison')
+                    ->label('Show "Compare Tractors" section on this category\'s page')
+                    ->default(true),
 
                 Forms\Components\Fieldset::make('SEO')
                     ->relationship('seoMeta')

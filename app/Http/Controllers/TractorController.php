@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Brand;
 use App\Models\Faq;
+use App\Models\Implement;
 use App\Models\Review;
 use App\Models\State;
 use App\Models\Tractor;
@@ -83,7 +84,14 @@ class TractorController extends Controller
             ->orderBy('sort_order')
             ->get();
 
-        return view('tractors.show', compact('tractor', 'states', 'similar', 'reviews', 'averageRating', 'faqs'));
+        $compatibleImplements = Implement::where('status', 'active')
+            ->where('compatible_hp_min', '<=', $tractor->hp)
+            ->where('compatible_hp_max', '>=', $tractor->hp)
+            ->with(['brand', 'images'])
+            ->limit(4)
+            ->get();
+
+        return view('tractors.show', compact('tractor', 'states', 'similar', 'reviews', 'averageRating', 'faqs', 'compatibleImplements'));
     }
 
     public function compare(string $slugs): View

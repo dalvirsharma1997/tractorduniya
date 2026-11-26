@@ -20,6 +20,14 @@ class BrandController extends Controller
             ->limit(8)
             ->get();
 
-        return view('brands.show', compact('brand', 'tractors', 'relatedBrands'));
+        $brandImplements = $brand->implements()
+            ->where('status', 'active')
+            ->with(['brand', 'images'])
+            ->limit(4)
+            ->get();
+
+        $comparableTractors = $brand->tractors()->where('status', 'active')->limit(4)->get();
+
+        return view('brands.show', compact('brand', 'tractors', 'relatedBrands', 'brandImplements', 'comparableTractors'));
     }
 }

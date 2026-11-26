@@ -13,13 +13,14 @@ class Tractor extends Model
         'brand_id', 'category_id', 'name', 'slug', 'series', 'hp', 'engine_cc',
         'cylinders', 'fuel_tank_litres', 'transmission_type', 'gearbox', 'pto_hp',
         'lifting_capacity_kg', 'drive_type', 'warranty_text', 'description', 'footer_content', 'launch_year',
-        'status', 'is_featured', 'created_by',
+        'status', 'is_featured', 'show_comparison', 'created_by',
     ];
 
     protected function casts(): array
     {
         return [
             'is_featured' => 'boolean',
+            'show_comparison' => 'boolean',
         ];
     }
 
