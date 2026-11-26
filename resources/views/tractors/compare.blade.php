@@ -12,10 +12,22 @@
     <h1 class="mt-4 text-2xl font-bold text-gray-900">{{ $tractors->pluck('name')->implode(' vs ') }}</h1>
     <p class="mt-1 text-sm text-gray-500">{{ __('Compare specifications and prices side by side, or swap in any tractor below.') }}</p>
 
-    <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-{{ min($tractors->count() + 1, 4) }}">
+    @php $totalSlots = $tractors->count() + ($tractors->count() < 3 ? 1 : 0); @endphp
+    <style>
+        @media (min-width: 1024px) {
+            #compare-grid { grid-template-columns: repeat({{ $totalSlots }}, minmax(0, 1fr)); }
+        }
+    </style>
+    <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2" id="compare-grid">
         @foreach($tractors as $index => $tractor)
             @php $image = $tractor->images->firstWhere('is_primary', true) ?? $tractor->images->first(); @endphp
-            <div class="overflow-hidden rounded-xl border border-gray-200 bg-white">
+            <div class="relative overflow-hidden rounded-xl border border-gray-200 bg-white">
+                @if($tractors->count() > 2)
+                    <button type="button" class="compare-remove absolute right-2 top-2 z-10 flex h-7 w-7 items-center justify-center rounded-full bg-white/90 text-gray-600 shadow hover:bg-white hover:text-red-600"
+                            data-index="{{ $index }}" aria-label="{{ __('Remove') }}">
+                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                @endif
                 <div class="aspect-[4/3] bg-gray-100">
                     @if($image)
                         <img src="{{ \Illuminate\Support\Facades\Storage::url($image->path) }}" alt="{{ $tractor->name }}" loading="lazy" class="h-full w-full object-cover">
@@ -127,6 +139,14 @@
                 goTo(currentSlugs.concat([addSlot.value]));
             });
         }
+
+        document.querySelectorAll('.compare-remove').forEach(function (button) {
+            button.addEventListener('click', function () {
+                const slugs = currentSlugs.slice();
+                slugs.splice(parseInt(button.dataset.index, 10), 1);
+                if (slugs.length >= 2) goTo(slugs);
+            });
+        });
     })();
 </script>
 @endsection
