@@ -155,6 +155,12 @@ class TractorResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\ReplicateAction::make()
+                    ->excludeAttributes(['slug'])
+                    ->beforeReplicaSaved(function (Tractor $replica) {
+                        $replica->name = $replica->name.' (Copy)';
+                        $replica->slug = Str::slug($replica->name).'-'.Str::random(6);
+                    }),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([

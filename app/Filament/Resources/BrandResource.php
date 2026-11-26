@@ -61,6 +61,12 @@ class BrandResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\ReplicateAction::make()
+                    ->excludeAttributes(['slug', 'tractors_count', 'implements_count'])
+                    ->beforeReplicaSaved(function (\App\Models\Brand $replica) {
+                        $replica->name = $replica->name.' (Copy)';
+                        $replica->slug = Str::slug($replica->name).'-'.Str::random(6);
+                    }),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([

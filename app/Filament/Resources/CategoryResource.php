@@ -62,6 +62,12 @@ class CategoryResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\ReplicateAction::make()
+                    ->excludeAttributes(['slug'])
+                    ->beforeReplicaSaved(function (\App\Models\Category $replica) {
+                        $replica->name = $replica->name.' (Copy)';
+                        $replica->slug = Str::slug($replica->name).'-'.Str::random(6);
+                    }),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
