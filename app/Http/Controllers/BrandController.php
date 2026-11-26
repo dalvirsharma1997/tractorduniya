@@ -14,6 +14,12 @@ class BrandController extends Controller
             ->with(['brand', 'images', 'prices'])
             ->paginate(12);
 
-        return view('brands.show', compact('brand', 'tractors'));
+        $relatedBrands = Brand::where('status', 'active')
+            ->where('id', '!=', $brand->id)
+            ->orderBy('name')
+            ->limit(8)
+            ->get();
+
+        return view('brands.show', compact('brand', 'tractors', 'relatedBrands'));
     }
 }
