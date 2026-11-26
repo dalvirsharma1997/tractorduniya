@@ -91,7 +91,13 @@ class TractorController extends Controller
             ->limit(4)
             ->get();
 
-        return view('tractors.show', compact('tractor', 'states', 'similar', 'reviews', 'averageRating', 'faqs', 'compatibleImplements'));
+        $allTractors = Tractor::where('status', 'active')
+            ->where('id', '!=', $tractor->id)
+            ->with('brand')
+            ->orderBy('name')
+            ->get(['id', 'name', 'slug', 'brand_id']);
+
+        return view('tractors.show', compact('tractor', 'states', 'similar', 'reviews', 'averageRating', 'faqs', 'compatibleImplements', 'allTractors'));
     }
 
     public function compare(string $slugs): View

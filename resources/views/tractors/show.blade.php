@@ -186,20 +186,36 @@
         </div>
     @endif
 
-    @if($tractor->show_comparison && $similar->isNotEmpty())
+    @if($tractor->show_comparison)
         <div class="mt-12">
-            <h2 class="text-xl font-bold text-gray-900">{{ __('Compare Tractors') }}</h2>
-            <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-                @foreach($similar->take(3) as $item)
-                    <div class="flex items-center justify-between rounded-lg border border-gray-200 p-4">
-                        <span class="text-sm font-medium text-gray-900">{{ $tractor->name }} {{ __('vs') }} {{ $item->name }}</span>
-                        <a href="{{ localized_route('tractors.compare', ['slugs' => $tractor->slug.'-vs-'.$item->slug]) }}"
-                           class="ml-3 shrink-0 rounded-md bg-brand-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-brand-700">
-                            {{ __('Compare') }}
-                        </a>
-                    </div>
-                @endforeach
+            <div class="flex flex-wrap items-center justify-between gap-3">
+                <h2 class="text-xl font-bold text-gray-900">{{ __('Compare Tractors') }}</h2>
+                <form onsubmit="event.preventDefault(); var v=this.elements.compare_with.value; if(v){ window.location.href = '{{ localized_route('tractors.compare', ['slugs' => $tractor->slug.'-vs-']) }}' + v; }"
+                      class="flex items-center gap-2">
+                    <select name="compare_with" class="rounded-md border border-gray-300 text-sm">
+                        <option value="">{{ __('Select a tractor') }}</option>
+                        @foreach($allTractors->groupBy(fn ($t) => $t->brand->name) as $brandName => $brandTractors)
+                            <optgroup label="{{ $brandName }}">
+                                @foreach($brandTractors as $other)
+                                    <option value="{{ $other->slug }}">{{ $other->name }}</option>
+                                @endforeach
+                            </optgroup>
+                        @endforeach
+                    </select>
+                    <button type="submit" class="rounded-md bg-brand-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-brand-700">
+                        {{ __('Compare') }}
+                    </button>
+                </form>
             </div>
+            <p class="mt-1 text-sm text-gray-500">{{ __('Compare with another tractor') }}</p>
+
+            @if($similar->isNotEmpty())
+                <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-3">
+                    @foreach($similar->take(3) as $item)
+                        <x-compare-card :left="$tractor" :right="$item" />
+                    @endforeach
+                </div>
+            @endif
         </div>
     @endif
 
