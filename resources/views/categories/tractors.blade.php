@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('title', $category->name . ' — Tractor Models & Prices')
+@section('seo_type', 'category')
+@section('seo_id', $category->id)
 
 @section('content')
 <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">

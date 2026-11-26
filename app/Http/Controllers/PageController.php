@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Faq;
+use App\Models\Page;
 use App\Models\Redirect;
 use App\Models\State;
 use App\Models\Tractor;
@@ -13,7 +14,9 @@ class PageController extends Controller
 {
     public function about(): View
     {
-        return view('pages.about');
+        $page = Page::where('slug', 'about')->first();
+
+        return view('pages.about', compact('page'));
     }
 
     public function contact(): View
@@ -23,7 +26,9 @@ class PageController extends Controller
 
     public function privacy(): View
     {
-        return view('pages.privacy');
+        $page = Page::where('slug', 'privacy-policy')->first();
+
+        return view('pages.privacy', compact('page'));
     }
 
     public function faqs(): View

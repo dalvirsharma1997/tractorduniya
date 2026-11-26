@@ -43,6 +43,16 @@ class CategoryResource extends Resource
                     ->searchable(),
                 Forms\Components\Textarea::make('description')
                     ->columnSpanFull(),
+
+                Forms\Components\Fieldset::make('SEO')
+                    ->relationship('seoMeta')
+                    ->schema([
+                        Forms\Components\TextInput::make('meta_title')->label('Meta title')->maxLength(70)->columnSpanFull(),
+                        Forms\Components\Textarea::make('meta_description')->label('Meta description')->rows(2)->maxLength(160)->columnSpanFull(),
+                        Forms\Components\FileUpload::make('og_image')->label('Social share image')->image()->directory('seo')->columnSpanFull(),
+                    ])
+                    ->columns(1)
+                    ->columnSpanFull(),
             ]);
     }
 

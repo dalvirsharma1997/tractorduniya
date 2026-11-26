@@ -5,13 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Tractor extends Model
 {
     protected $fillable = [
         'brand_id', 'category_id', 'name', 'slug', 'series', 'hp', 'engine_cc',
         'cylinders', 'fuel_tank_litres', 'transmission_type', 'gearbox', 'pto_hp',
-        'lifting_capacity_kg', 'drive_type', 'warranty_text', 'launch_year',
+        'lifting_capacity_kg', 'drive_type', 'warranty_text', 'description', 'launch_year',
         'status', 'is_featured', 'created_by',
     ];
 
@@ -45,6 +46,11 @@ class Tractor extends Model
     public function specs(): HasMany
     {
         return $this->hasMany(TractorSpec::class)->orderBy('sort_order');
+    }
+
+    public function seoMeta(): MorphOne
+    {
+        return $this->morphOne(SeoMeta::class, 'routable');
     }
 
     public function priceFor(?int $stateId): ?TractorPrice

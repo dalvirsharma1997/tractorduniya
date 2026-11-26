@@ -1,3 +1,4 @@
+@php($headerMenu = \App\Models\MenuItem::topLevel('header')->get())
 <header class="border-b border-gray-200 bg-white sticky top-0 z-40">
     <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <a href="{{ localized_route('home') }}" class="flex items-center gap-2 text-xl font-bold text-brand-700">
@@ -6,11 +7,26 @@
         </a>
 
         <nav class="hidden items-center gap-6 text-sm font-medium text-gray-700 md:flex">
-            <a href="{{ localized_route('tractors.index') }}" class="hover:text-brand-700">{{ __('Tractors') }}</a>
-            <a href="{{ localized_route('implements.index') }}" class="hover:text-brand-700">{{ __('Implements') }}</a>
-            <a href="{{ localized_route('used-listings.index') }}" class="hover:text-brand-700">{{ __('Used Tractors') }}</a>
-            <a href="{{ localized_route('dealers.index') }}" class="hover:text-brand-700">{{ __('Dealers') }}</a>
-            <a href="{{ localized_route('blog.index') }}" class="hover:text-brand-700">{{ __('Blog') }}</a>
+            @foreach($headerMenu as $item)
+                @if($item->children->isNotEmpty())
+                    <div class="group relative">
+                        <button type="button" class="flex items-center gap-1 hover:text-brand-700">
+                            {{ __($item->label) }}
+                            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                        </button>
+                        <div class="invisible absolute left-0 top-full z-10 w-56 rounded-lg border border-gray-200 bg-white py-2 opacity-0 shadow-lg transition group-hover:visible group-hover:opacity-100">
+                            @foreach($item->children as $child)
+                                <a href="{{ $child->url }}" @if($child->opens_new_tab) target="_blank" rel="noopener" @endif
+                                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-brand-700">
+                                    {{ __($child->label) }}
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                @else
+                    <a href="{{ $item->url }}" @if($item->opens_new_tab) target="_blank" rel="noopener" @endif class="hover:text-brand-700">{{ __($item->label) }}</a>
+                @endif
+            @endforeach
         </nav>
 
         <div class="flex items-center gap-3">
@@ -39,12 +55,17 @@
         </div>
     </div>
 
-    <nav id="mobile-nav" class="hidden flex-col gap-2 border-t border-gray-200 px-4 py-3 text-sm font-medium text-gray-700 md:hidden">
-        <a href="{{ localized_route('tractors.index') }}" class="py-1">{{ __('Tractors') }}</a>
-        <a href="{{ localized_route('implements.index') }}" class="py-1">{{ __('Implements') }}</a>
-        <a href="{{ localized_route('used-listings.index') }}" class="py-1">{{ __('Used Tractors') }}</a>
-        <a href="{{ localized_route('dealers.index') }}" class="py-1">{{ __('Dealers') }}</a>
-        <a href="{{ localized_route('blog.index') }}" class="py-1">{{ __('Blog') }}</a>
+    <nav id="mobile-nav" class="hidden flex-col gap-1 border-t border-gray-200 px-4 py-3 text-sm font-medium text-gray-700 md:hidden">
+        @foreach($headerMenu as $item)
+            @if($item->children->isNotEmpty())
+                <p class="py-1 pt-2 text-xs font-semibold uppercase text-gray-400">{{ __($item->label) }}</p>
+                @foreach($item->children as $child)
+                    <a href="{{ $child->url }}" @if($child->opens_new_tab) target="_blank" rel="noopener" @endif class="py-1 pl-2">{{ __($child->label) }}</a>
+                @endforeach
+            @else
+                <a href="{{ $item->url }}" @if($item->opens_new_tab) target="_blank" rel="noopener" @endif class="py-1">{{ __($item->label) }}</a>
+            @endif
+        @endforeach
         <a href="{{ localized_route('used-listings.create') }}" class="py-1 font-semibold text-brand-700">{{ __('Sell your tractor') }}</a>
         @if(isset($alternates['en']) || isset($alternates['hi']))
             <div class="mt-2 flex gap-2 border-t border-gray-100 pt-2">

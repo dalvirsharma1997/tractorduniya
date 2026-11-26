@@ -2,6 +2,8 @@
 
 @section('title', $brand->name . ' Tractors — All Models, Price & Specs')
 @section('meta_description', 'Browse all ' . $brand->name . ' tractor models with specifications and prices.')
+@section('seo_type', 'brand')
+@section('seo_id', $brand->id)
 
 @section('content')
 <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">

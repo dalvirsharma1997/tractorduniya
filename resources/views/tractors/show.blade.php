@@ -68,6 +68,9 @@
             </div>
 
             <div id="tab-overview" class="tab-panel py-6">
+                @if($tractor->description)
+                    <p class="mb-4 text-gray-700">{{ $tractor->description }}</p>
+                @endif
                 <p class="text-gray-700">{{ $tractor->warranty_text ? __('Warranty: :text', ['text' => $tractor->warranty_text]) : '' }}</p>
                 <dl class="mt-4 grid grid-cols-2 gap-4 text-sm sm:grid-cols-3">
                     <div><dt class="text-gray-500">{{ __('HP') }}</dt><dd class="font-medium">{{ $tractor->hp }}</dd></div>

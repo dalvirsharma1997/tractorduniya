@@ -55,6 +55,7 @@ class TractorResource extends Resource
                                 Forms\Components\Toggle::make('is_featured')->label('Featured on homepage'),
                                 Forms\Components\TextInput::make('launch_year')->numeric(),
                                 Forms\Components\TextInput::make('warranty_text')->columnSpanFull(),
+                                Forms\Components\Textarea::make('description')->rows(4)->columnSpanFull(),
                             ])->columns(2),
 
                         Forms\Components\Tabs\Tab::make('Specs')
@@ -124,6 +125,18 @@ class TractorResource extends Resource
                                     ->columnSpanFull()
                                     ->defaultItems(0)
                                     ->reorderable('sort_order'),
+                            ]),
+
+                        Forms\Components\Tabs\Tab::make('SEO')
+                            ->schema([
+                                Forms\Components\Fieldset::make('Meta tags')
+                                    ->relationship('seoMeta')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('meta_title')->label('Meta title')->maxLength(70)->columnSpanFull(),
+                                        Forms\Components\Textarea::make('meta_description')->label('Meta description')->rows(2)->maxLength(160)->columnSpanFull(),
+                                        Forms\Components\FileUpload::make('og_image')->label('Social share image')->image()->directory('seo')->columnSpanFull(),
+                                    ])
+                                    ->columns(1),
                             ]),
                     ]),
             ]);

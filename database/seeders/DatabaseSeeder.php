@@ -17,6 +17,8 @@ class DatabaseSeeder extends Seeder
             RolePermissionSeeder::class,
             StateDistrictSeeder::class,
             BrandCategorySeeder::class,
+            MenuSeeder::class,
+            PageSeeder::class,
             DemoDataSeeder::class,
         ]);
     }

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Brand extends Model
 {
@@ -23,5 +24,10 @@ class Brand extends Model
     public function dealers(): BelongsToMany
     {
         return $this->belongsToMany(Dealer::class, 'dealer_brands');
+    }
+
+    public function seoMeta(): MorphOne
+    {
+        return $this->morphOne(SeoMeta::class, 'routable');
     }
 }

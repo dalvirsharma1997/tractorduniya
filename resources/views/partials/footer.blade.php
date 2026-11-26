@@ -7,6 +7,7 @@
         ->limit(12)
         ->get();
     $footerCategories = \App\Models\Category::where('type', 'tractor_category')->orderBy('name')->get();
+    $footerMenu = \App\Models\MenuItem::topLevel('footer')->get();
     $facebookUrl = \App\Models\Setting::get('facebook_url');
     $youtubeUrl = \App\Models\Setting::get('youtube_url');
     $instagramUrl = \App\Models\Setting::get('instagram_url');
@@ -28,8 +29,8 @@
         </div>
     @endif
 
-    <div class="mx-auto grid max-w-7xl grid-cols-2 gap-8 px-4 py-12 sm:px-6 md:grid-cols-5 lg:px-8">
-        <div class="col-span-2 md:col-span-1">
+    <div class="mx-auto grid max-w-7xl grid-cols-2 gap-8 px-4 py-12 sm:px-6 md:grid-cols-3 lg:grid-cols-6 lg:px-8">
+        <div class="col-span-2 md:col-span-1 lg:col-span-2">
             <p class="text-lg font-bold text-brand-700">{{ $siteName }}</p>
             <p class="mt-2 text-sm text-gray-600">{{ __("India's tractor marketplace — compare models, find dealers, and buy or sell used equipment.") }}</p>
 
@@ -64,16 +65,16 @@
             @endif
         </div>
 
-        <div>
-            <p class="text-sm font-semibold text-gray-900">{{ __('Browse') }}</p>
-            <ul class="mt-3 space-y-2 text-sm text-gray-600">
-                <li><a href="{{ localized_route('tractors.index') }}" class="hover:text-brand-700">{{ __('All Tractors') }}</a></li>
-                <li><a href="{{ localized_route('implements.index') }}" class="hover:text-brand-700">{{ __('Implements') }}</a></li>
-                <li><a href="{{ localized_route('used-listings.index') }}" class="hover:text-brand-700">{{ __('Buy Used Tractors') }}</a></li>
-                <li><a href="{{ localized_route('used-listings.create') }}" class="hover:text-brand-700">{{ __('Sell Your Tractor') }}</a></li>
-                <li><a href="{{ localized_route('dealers.index') }}" class="hover:text-brand-700">{{ __('Dealer Directory') }}</a></li>
-            </ul>
-        </div>
+        @foreach($footerMenu as $column)
+            <div>
+                <p class="text-sm font-semibold text-gray-900">{{ __($column->label) }}</p>
+                <ul class="mt-3 space-y-2 text-sm text-gray-600">
+                    @foreach($column->children as $link)
+                        <li><a href="{{ $link->url }}" @if($link->opens_new_tab) target="_blank" rel="noopener" @endif class="hover:text-brand-700">{{ __($link->label) }}</a></li>
+                    @endforeach
+                </ul>
+            </div>
+        @endforeach
 
         @if($footerCategories->isNotEmpty())
             <div>
@@ -82,34 +83,15 @@
                     @foreach($footerCategories as $category)
                         <li><a href="{{ localized_route('categories.show', $category) }}" class="hover:text-brand-700">{{ $category->name }}</a></li>
                     @endforeach
+                    @if($phone = \App\Models\Setting::get('contact_phone'))
+                        <li class="pt-1 text-gray-500">{{ $phone }}</li>
+                    @endif
+                    @if($email = \App\Models\Setting::get('contact_email'))
+                        <li class="text-gray-500">{{ $email }}</li>
+                    @endif
                 </ul>
             </div>
         @endif
-
-        <div>
-            <p class="text-sm font-semibold text-gray-900">{{ __('Resources') }}</p>
-            <ul class="mt-3 space-y-2 text-sm text-gray-600">
-                <li><a href="{{ localized_route('blog.index') }}" class="hover:text-brand-700">{{ __('Blog') }}</a></li>
-                <li><a href="{{ localized_route('news.index') }}" class="hover:text-brand-700">{{ __('News') }}</a></li>
-                <li><a href="{{ localized_route('emi-calculator') }}" class="hover:text-brand-700">{{ __('EMI Calculator') }}</a></li>
-                <li><a href="{{ localized_route('faqs') }}" class="hover:text-brand-700">{{ __('FAQs') }}</a></li>
-            </ul>
-        </div>
-
-        <div>
-            <p class="text-sm font-semibold text-gray-900">{{ __('Company') }}</p>
-            <ul class="mt-3 space-y-2 text-sm text-gray-600">
-                <li><a href="{{ localized_route('about') }}" class="hover:text-brand-700">{{ __('About Us') }}</a></li>
-                <li><a href="{{ localized_route('contact') }}" class="hover:text-brand-700">{{ __('Contact') }}</a></li>
-                <li><a href="{{ localized_route('privacy') }}" class="hover:text-brand-700">{{ __('Privacy Policy') }}</a></li>
-                @if($phone = \App\Models\Setting::get('contact_phone'))
-                    <li>{{ $phone }}</li>
-                @endif
-                @if($email = \App\Models\Setting::get('contact_email'))
-                    <li>{{ $email }}</li>
-                @endif
-            </ul>
-        </div>
     </div>
 
     <div class="border-t border-gray-200 py-4 text-center text-xs text-gray-500">

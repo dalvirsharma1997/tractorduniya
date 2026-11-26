@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Implement extends Model
 {
@@ -33,5 +34,10 @@ class Implement extends Model
     public function specs(): HasMany
     {
         return $this->hasMany(ImplementSpec::class)->orderBy('sort_order');
+    }
+
+    public function seoMeta(): MorphOne
+    {
+        return $this->morphOne(SeoMeta::class, 'routable');
     }
 }
