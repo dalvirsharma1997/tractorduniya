@@ -48,6 +48,10 @@ class ImplementResource extends Resource
                                 Forms\Components\TextInput::make('price_min')->numeric()->prefix('₹'),
                                 Forms\Components\TextInput::make('price_max')->numeric()->prefix('₹'),
                                 Forms\Components\Textarea::make('description')->columnSpanFull(),
+                                Forms\Components\RichEditor::make('footer_content')
+                                    ->label('Text section (shown before the footer)')
+                                    ->helperText('A longer write-up shown as its own section near the bottom of this implement\'s page, above the footer.')
+                                    ->columnSpanFull(),
                             ])->columns(2),
 
                         Forms\Components\Tabs\Tab::make('Specs')

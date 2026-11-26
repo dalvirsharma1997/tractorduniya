@@ -43,6 +43,10 @@ class CategoryResource extends Resource
                     ->searchable(),
                 Forms\Components\Textarea::make('description')
                     ->columnSpanFull(),
+                Forms\Components\RichEditor::make('footer_content')
+                    ->label('Text section (shown before the footer)')
+                    ->helperText('A longer write-up shown as its own section near the bottom of this category\'s page, above the footer.')
+                    ->columnSpanFull(),
 
                 Forms\Components\Fieldset::make('SEO')
                     ->relationship('seoMeta')

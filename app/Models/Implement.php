@@ -13,7 +13,7 @@ class Implement extends Model
 
     protected $fillable = [
         'brand_id', 'category_id', 'name', 'slug', 'type', 'compatible_hp_min',
-        'compatible_hp_max', 'price_min', 'price_max', 'description', 'status', 'created_by',
+        'compatible_hp_max', 'price_min', 'price_max', 'description', 'footer_content', 'status', 'created_by',
     ];
 
     public function brand(): BelongsTo

@@ -37,6 +37,10 @@ class BrandResource extends Resource
                 Forms\Components\TextInput::make('country'),
                 Forms\Components\Textarea::make('description')
                     ->columnSpanFull(),
+                Forms\Components\RichEditor::make('footer_content')
+                    ->label('Text section (shown before the footer)')
+                    ->helperText('A longer write-up shown as its own section near the bottom of this brand\'s page, above the footer.')
+                    ->columnSpanFull(),
                 Forms\Components\Select::make('status')
                     ->options(['active' => 'Active', 'inactive' => 'Inactive'])
                     ->required()

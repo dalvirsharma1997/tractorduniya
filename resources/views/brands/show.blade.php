@@ -60,12 +60,13 @@
     <section class="mt-12 border-t border-gray-200 pt-8">
         <h2 class="text-xl font-bold text-gray-900">{{ __('About :brand', ['brand' => $brand->name]) }}</h2>
         <div class="prose prose-gray mt-4 max-w-none text-gray-600">
-            @if($brand->description)
+            @if($brand->footer_content)
+                {!! $brand->footer_content !!}
+            @elseif($brand->description)
                 <p>{{ $brand->description }}</p>
             @else
-                <p>{{ __(':brand is one of the tractor brands listed on TractorDuniya.in, with models spanning a range of horsepower and drive-type options to suit different farm sizes and jobs.', ['brand' => $brand->name]) }}</p>
+                <p>{{ __(':brand is one of the tractor brands listed on TractorDuniya.in, with models spanning a range of horsepower and drive-type options to suit different farm sizes and jobs. Every model listed here shows horsepower, engine capacity, drive type, and the price range reported for it, so you can compare it directly against other brands before deciding.', ['brand' => $brand->name]) }}</p>
             @endif
-            <p>{{ __('Every :brand model listed here shows horsepower, engine capacity, drive type, and the price range reported for it, so you can compare it directly against other brands before deciding. Reach out through the enquiry form on any model page and a dealer carrying :brand tractors in your district will get in touch.', ['brand' => $brand->name]) }}</p>
         </div>
     </section>
 </div>

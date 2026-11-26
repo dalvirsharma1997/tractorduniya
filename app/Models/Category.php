@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Category extends Model
 {
-    protected $fillable = ['name', 'slug', 'type', 'parent_id', 'description'];
+    protected $fillable = ['name', 'slug', 'type', 'parent_id', 'description', 'footer_content'];
 
     public function parent(): BelongsTo
     {

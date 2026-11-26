@@ -20,5 +20,14 @@
     </div>
 
     <div class="mt-8">{{ $tractors->links() }}</div>
+
+    @if($category->footer_content)
+        <section class="mt-12 border-t border-gray-200 pt-8">
+            <h2 class="text-xl font-bold text-gray-900">{{ __('About :category', ['category' => $category->name]) }}</h2>
+            <div class="prose prose-gray mt-4 max-w-none text-gray-600">
+                {!! $category->footer_content !!}
+            </div>
+        </section>
+    @endif
 </div>
 @endsection

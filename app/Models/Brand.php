@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Brand extends Model
 {
-    protected $fillable = ['name', 'slug', 'logo_path', 'country', 'description', 'status'];
+    protected $fillable = ['name', 'slug', 'logo_path', 'country', 'description', 'footer_content', 'status'];
 
     public function tractors(): HasMany
     {

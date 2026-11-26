@@ -171,6 +171,15 @@
         </div>
     </div>
 
+    @if($tractor->footer_content)
+        <section class="mt-12 border-t border-gray-200 pt-8">
+            <h2 class="text-xl font-bold text-gray-900">{{ __('About :tractor', ['tractor' => $tractor->name]) }}</h2>
+            <div class="prose prose-gray mt-4 max-w-none text-gray-600">
+                {!! $tractor->footer_content !!}
+            </div>
+        </section>
+    @endif
+
     @if($similar->isNotEmpty())
         <div class="mt-12">
             <h2 class="text-xl font-bold text-gray-900">{{ __("Similar Tractors") }}</h2>

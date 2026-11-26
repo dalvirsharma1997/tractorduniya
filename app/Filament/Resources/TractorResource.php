@@ -56,6 +56,10 @@ class TractorResource extends Resource
                                 Forms\Components\TextInput::make('launch_year')->numeric(),
                                 Forms\Components\TextInput::make('warranty_text')->columnSpanFull(),
                                 Forms\Components\Textarea::make('description')->rows(4)->columnSpanFull(),
+                                Forms\Components\RichEditor::make('footer_content')
+                                    ->label('Text section (shown before the footer)')
+                                    ->helperText('A longer write-up shown as its own section near the bottom of this tractor\'s page, above the footer.')
+                                    ->columnSpanFull(),
                             ])->columns(2),
 
                         Forms\Components\Tabs\Tab::make('Specs')
