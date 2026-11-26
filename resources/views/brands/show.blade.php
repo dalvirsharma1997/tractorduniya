@@ -94,5 +94,8 @@
             @endif
         </div>
     </section>
+
+    <x-faq-schema :faqs="$faqs" />
+    <x-faq-list :faqs="$faqs" :heading="__(':brand FAQs', ['brand' => $brand->name])" />
 </div>
 @endsection

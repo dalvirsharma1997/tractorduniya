@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brand;
+use App\Models\Faq;
 use App\Models\Implement;
 use App\Models\Tractor;
 use Illuminate\View\View;
@@ -50,6 +51,8 @@ class BrandController extends Controller
             $comparableTractors = $comparableTractors->concat($fallbackTractors)->values();
         }
 
-        return view('brands.show', compact('brand', 'tractors', 'relatedBrands', 'brandImplements', 'comparableTractors'));
+        $faqs = Faq::where('faqable_type', 'brand')->where('faqable_id', $brand->id)->orderBy('sort_order')->get();
+
+        return view('brands.show', compact('brand', 'tractors', 'relatedBrands', 'brandImplements', 'comparableTractors', 'faqs'));
     }
 }

@@ -23,7 +23,10 @@ class FaqResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('faqable_type')
-                    ->options(['tractor' => 'Tractor', 'implement' => 'Implement', 'brand' => 'Brand', 'page' => 'Page'])
+                    ->options([
+                        'tractor' => 'Tractor', 'implement' => 'Implement', 'brand' => 'Brand',
+                        'category' => 'Category', 'dealer' => 'Dealer', 'page' => 'Page',
+                    ])
                     ->live(),
                 Forms\Components\Select::make('faqable_id')
                     ->label('Related item')
@@ -32,6 +35,8 @@ class FaqResource extends Resource
                             'tractor' => \App\Models\Tractor::pluck('name', 'id'),
                             'implement' => \App\Models\Implement::pluck('name', 'id'),
                             'brand' => \App\Models\Brand::pluck('name', 'id'),
+                            'category' => \App\Models\Category::pluck('name', 'id'),
+                            'dealer' => \App\Models\Dealer::pluck('name', 'id'),
                             default => [],
                         };
                     })
@@ -51,7 +56,10 @@ class FaqResource extends Resource
                 Tables\Columns\TextColumn::make('sort_order'),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('faqable_type')->options(['tractor' => 'Tractor', 'implement' => 'Implement', 'brand' => 'Brand', 'page' => 'Page']),
+                Tables\Filters\SelectFilter::make('faqable_type')->options([
+                    'tractor' => 'Tractor', 'implement' => 'Implement', 'brand' => 'Brand',
+                    'category' => 'Category', 'dealer' => 'Dealer', 'page' => 'Page',
+                ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

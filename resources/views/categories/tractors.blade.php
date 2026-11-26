@@ -54,5 +54,8 @@
             </div>
         </section>
     @endif
+
+    <x-faq-schema :faqs="$faqs" />
+    <x-faq-list :faqs="$faqs" :heading="__(':category FAQs', ['category' => $category->name])" />
 </div>
 @endsection

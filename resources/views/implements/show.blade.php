@@ -74,15 +74,6 @@
                 </table>
             @endif
 
-            @if($faqs->isNotEmpty())
-                <h2 class="mt-8 text-lg font-semibold text-gray-900">FAQs</h2>
-                @foreach($faqs as $faq)
-                    <details class="border-b border-gray-100 py-3">
-                        <summary class="cursor-pointer font-medium text-gray-900">{{ $faq->question }}</summary>
-                        <p class="mt-2 text-sm text-gray-600">{{ $faq->answer }}</p>
-                    </details>
-                @endforeach
-            @endif
         </div>
 
         <div>
@@ -121,5 +112,7 @@
             </div>
         </div>
     @endif
+
+    <x-faq-list :faqs="$faqs" :heading="__(':implement FAQs', ['implement' => $implement->name])" />
 </div>
 @endsection

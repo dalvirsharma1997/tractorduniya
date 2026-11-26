@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Brand;
 use App\Models\Dealer;
+use App\Models\Faq;
 use App\Models\State;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -38,6 +39,8 @@ class DealerController extends Controller
     {
         $dealer->load(['state', 'district', 'brands']);
 
-        return view('dealers.show', compact('dealer'));
+        $faqs = Faq::where('faqable_type', 'dealer')->where('faqable_id', $dealer->id)->orderBy('sort_order')->get();
+
+        return view('dealers.show', compact('dealer', 'faqs'));
     }
 }

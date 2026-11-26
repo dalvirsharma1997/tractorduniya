@@ -14,6 +14,8 @@ class Faq extends Model
             'tractor' => Tractor::find($this->faqable_id),
             'implement' => Implement::find($this->faqable_id),
             'brand' => Brand::find($this->faqable_id),
+            'category' => Category::find($this->faqable_id),
+            'dealer' => Dealer::find($this->faqable_id),
             default => null,
         };
     }

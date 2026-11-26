@@ -51,5 +51,8 @@
             allowfullscreen loading="lazy">
         </iframe>
     </div>
+
+    <x-faq-schema :faqs="$faqs" />
+    <x-faq-list :faqs="$faqs" :heading="__('FAQs about :dealer', ['dealer' => $dealer->name])" />
 </div>
 @endsection

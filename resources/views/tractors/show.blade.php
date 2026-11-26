@@ -58,7 +58,7 @@
             {{-- Tabs --}}
             <div class="mt-6 border-b border-gray-200">
                 <nav class="-mb-px flex flex-wrap gap-4 text-sm font-medium" id="tractor-tabs">
-                    @foreach(['overview' => __('Overview'), 'price' => __('Price'), 'specs' => __('Full Specs'), 'gallery' => __('Gallery'), 'reviews' => __('Reviews'), 'faqs' => __('FAQs')] as $key => $label)
+                    @foreach(['overview' => __('Overview'), 'price' => __('Price'), 'specs' => __('Full Specs'), 'gallery' => __('Gallery'), 'reviews' => __('Reviews')] as $key => $label)
                         <button type="button" onclick="showTab('{{ $key }}')" id="tab-btn-{{ $key }}"
                                 class="tab-btn border-b-2 border-transparent px-1 py-2 text-gray-600 hover:text-brand-700">
                             {{ $label }}
@@ -141,17 +141,6 @@
                     </div>
                 @empty
                     <p class="text-gray-500">{{ __("No reviews yet.") }}</p>
-                @endforelse
-            </div>
-
-            <div id="tab-faqs" class="tab-panel hidden py-6">
-                @forelse($faqs as $faq)
-                    <details class="border-b border-gray-100 py-3">
-                        <summary class="cursor-pointer font-medium text-gray-900">{{ $faq->question }}</summary>
-                        <p class="mt-2 text-sm text-gray-600">{{ $faq->answer }}</p>
-                    </details>
-                @empty
-                    <p class="text-gray-500">{{ __("No FAQs for this model yet.") }}</p>
                 @endforelse
             </div>
 
@@ -238,5 +227,7 @@
             </div>
         </div>
     @endif
+
+    <x-faq-list :faqs="$faqs" :heading="__(':tractor FAQs', ['tractor' => $tractor->name])" />
 </div>
 @endsection
